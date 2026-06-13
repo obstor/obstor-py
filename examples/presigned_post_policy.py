@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C)
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C)
 # [2014] - [2025] MinIO, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,11 +16,11 @@
 
 from datetime import datetime, timedelta
 
-from minio import Minio
-from minio.models import PostPolicy
+from obstor import Obstor
+from obstor.models import PostPolicy
 
-client = Minio(
-    endpoint="play.min.io",
+client = Obstor(
+    endpoint="demo.obstor.net",
     access_key="Q3AM3UQ867SPQQA43P2F",
     secret_key="zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG",
 )
@@ -33,7 +33,7 @@ form_data = client.presigned_post_policy(policy)
 
 args = " ".join([f"-F {k}={v}" for k, v in form_data.items()])
 curl_cmd = (
-    "curl -X POST https://play.min.io/my-bucket "
+    "curl -X POST https://demo.obstor.net/my-bucket "
     f"{args} -F file=@<FILE> -F key=<OBJECT-NAME>"
 )
 print(curl_cmd)

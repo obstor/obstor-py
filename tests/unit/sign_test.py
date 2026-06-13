@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C)
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C)
 # [2014] - [2025] MinIO, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the 'License');
@@ -22,11 +22,11 @@ from urllib.parse import urlsplit, urlunsplit
 
 from urllib3._collections import HTTPHeaderDict
 
-from minio import Minio
-from minio.checksum import sha256_hash
-from minio.compat import queryencode, quote
-from minio.credentials import Credentials
-from minio.signer import (_get_authorization, _get_canonical_request_hash,
+from obstor import Obstor
+from obstor.checksum import sha256_hash
+from obstor.compat import queryencode, quote
+from obstor.credentials import Credentials
+from obstor.signer import (_get_authorization, _get_canonical_request_hash,
                           _get_scope, _get_signing_key, _get_string_to_sign,
                           presign_v4, sign_v4_s3)
 
@@ -127,7 +127,7 @@ class AuthorizationHeaderTest(TestCase):
 
 class PresignURLTest(TestCase):
     def test_presigned_versioned_id(self):
-        credentials = Credentials("minio", "minio123")
+        credentials = Credentials("obstor", "obstor123")
         url = presign_v4(
             method='GET',
             url=urlsplit(
@@ -143,20 +143,20 @@ class PresignURLTest(TestCase):
             urlunsplit(url),
             'http://localhost:9000/bucket-name/objectName?versionId=uuid&'
             'X-Amz-Algorithm=AWS4-HMAC-SHA256&'
-            'X-Amz-Credential=minio%2F20150620%2Fus-east-1%2Fs3%2Faws4_request&'
+            'X-Amz-Credential=obstor%2F20150620%2Fus-east-1%2Fs3%2Faws4_request&'
             'X-Amz-Date=20150620T010203Z&X-Amz-Expires=604800&'
             'X-Amz-SignedHeaders=host&'
-            'X-Amz-Signature=3ce13e2ca929fafa20581a05730e4e9435f2a5e20ec7c5a082'
-            'd175692fb0a663',
+            'X-Amz-Signature=b72efabb7326be06c4d664cb137ea1fdc7fbc190ab91815ec2'
+            '21f6890055a90d',
         )
 
 
 class SignV4Test(TestCase):
     def test_signv4(self):
-        client = Minio(
+        client = Obstor(
             endpoint="localhost:9000",
-            access_key="minio",
-            secret_key="minio123",
+            access_key="obstor",
+            secret_key="obstor123",
             secure=False,
         )
         creds = client._provider.retrieve()
@@ -187,10 +187,10 @@ class SignV4Test(TestCase):
         )
         self.assertEqual(headers['Authorization'],
                          'AWS4-HMAC-SHA256 Credential='
-                         'minio/20150620/us-east-1/s3/aws4_request, '
+                         'obstor/20150620/us-east-1/s3/aws4_request, '
                          'SignedHeaders=host;x-amz-content-sha256;x-amz-date, '
-                         'Signature=a2f4546f647981732bd90dfa5a7599c44dca92f44b'
-                         'ea48ecc7565df06032c25b')
+                         'Signature=c8e819db91a9be929f30014a769d04a32bd22bd67'
+                         '12e48aed32ec71a430081a2')
 
 
 class UnicodeEncodeTest(TestCase):

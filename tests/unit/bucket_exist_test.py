@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C)
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C)
 # [2014] - [2025] MinIO, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,26 +16,26 @@
 
 from unittest import TestCase, mock
 
-from minio import Minio
-from minio.error import S3Error
-from minio.helpers import _DEFAULT_USER_AGENT
+from obstor import Obstor
+from obstor.error import S3Error
+from obstor.helpers import _DEFAULT_USER_AGENT
 
-from .minio_mocks import MockConnection, MockResponse
+from .obstor_mocks import MockConnection, MockResponse
 
 
 class BucketExists(TestCase):
     def test_bucket_is_string(self):
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         with self.assertRaises(TypeError):
             client.bucket_exists(bucket_name=1234)
 
     def test_bucket_is_not_empty_string(self):
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         with self.assertRaises(ValueError):
             client.bucket_exists(bucket_name='  \t \n  ')
 
     def test_bucket_exists_invalid_name(self):
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         with self.assertRaises(ValueError):
             client.bucket_exists(bucket_name='AB*CD')
 
@@ -49,7 +49,7 @@ class BucketExists(TestCase):
                          {'User-Agent': _DEFAULT_USER_AGENT},
                          400)
         )
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         kwargs = {"bucket_name": 'hello'}
         self.assertRaises(S3Error, client.bucket_exists, **kwargs)
 
@@ -63,7 +63,7 @@ class BucketExists(TestCase):
                          {'User-Agent': _DEFAULT_USER_AGENT},
                          200)
         )
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         result = client.bucket_exists(bucket_name='hello')
         self.assertTrue(result)
         mock_server.mock_add_request(

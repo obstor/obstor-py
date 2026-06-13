@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C)
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C)
 # [2014] - [2025] MinIO, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,10 +17,10 @@
 import io
 from urllib.request import urlopen
 
-from minio import Minio
+from obstor import Obstor
 
-client = Minio(
-    endpoint="play.min.io",
+client = Obstor(
+    endpoint="demo.obstor.net",
     access_key="Q3AM3UQ867SPQQA43P2F",
     secret_key="zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG",
 )

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C)
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C)
 # [2014] - [2025] MinIO, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,13 +19,13 @@ from unittest import TestCase
 
 from urllib3.response import HTTPResponse
 
-from minio.crypto import decrypt, encrypt
+from obstor.crypto import decrypt, encrypt
 
 
 class CryptoTest(TestCase):
     def test_correct(self):
         secret = "topsecret"
-        plaintext = "Hello MinIO!"
+        plaintext = "Hello Obstor!"
         encrypted = encrypt(plaintext.encode(), secret)
         decrypted = decrypt(
             HTTPResponse(body=BytesIO(encrypted), preload_content=False),
@@ -39,7 +39,7 @@ class CryptoTest(TestCase):
     def test_wrong(self):
         secret = "topsecret"
         secret2 = "othersecret"
-        plaintext = "Hello MinIO!"
+        plaintext = "Hello Obstor!"
         encrypted = encrypt(plaintext.encode(), secret)
         self.assertRaises(
             ValueError,

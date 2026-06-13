@@ -1,42 +1,41 @@
-# MinIO Python Client SDK for Amazon S3 Compatible Cloud Storage [![Slack](https://slack.min.io/slack?type=svg)](https://slack.min.io) [![Apache V2 License](https://img.shields.io/badge/license-Apache%20V2-blue.svg)](https://github.com/minio/minio-py/blob/master/LICENSE)
+# Obstor Python Client SDK for Amazon S3 Compatible Cloud Storage [![Apache V2 License](https://img.shields.io/badge/license-Apache%20V2-blue.svg)](https://github.com/obstor/obstor-py/blob/master/LICENSE)
 
-The MinIO Python Client SDK provides high level APIs to access any MinIO Object Storage or other Amazon S3 compatible service.
+The Obstor Python Client SDK provides high level APIs to access any Obstor Object Storage or other Amazon S3 compatible service.
 
-This Quickstart Guide covers how to install the MinIO client SDK, connect to the object storage service, and create a sample file uploader.
+This Quickstart Guide covers how to install the Obstor client SDK, connect to the object storage service, and create a sample file uploader.
 
 The example below uses:
 - [Python version 3.10+](https://www.python.org/downloads/)
-- The [MinIO `mc` command line tool](https://min.io/docs/minio/linux/reference/minio-mc.html)
-- The MinIO `play` test server
+- The Obstor `demo` test server
 
-The `play` server is a public MinIO cluster located at [https://play.min.io](https://play.min.io).
-This cluster runs the latest stable version of MinIO and may be used for testing and development.
-The access credentials in the example are open to the public and all data uploaded to `play` should be considered public and world-readable.
+The `demo` server is a public Obstor cluster located at [https://demo.obstor.net](https://demo.obstor.net).
+This cluster runs the latest stable version of Obstor and may be used for testing and development.
+The access credentials in the example are open to the public and all data uploaded to `demo` should be considered public and world-readable.
 
-For a complete list of APIs and examples, see the [Python SDK Documentation](https://docs.min.io/enterprise/aistor-object-store/developers/sdk/python/)
+For a complete list of APIs and examples, see the [Python SDK Documentation](https://obstor.net/docs/enterprise/obstor-object-store/developers/sdk/python/)
 
-## Install the MinIO Python SDK
+## Install the Obstor Python SDK
 
 The Python SDK requires Python version 3.10+.
-You can install the SDK with `pip` or from the [`minio/minio-py` GitHub repository](https://github.com/minio/minio-py):
+You can install the SDK with `pip` or from the [`obstor/obstor-py` GitHub repository](https://github.com/obstor/obstor-py):
 
 ### Using `pip`
 
 ```sh
-pip3 install minio
+pip3 install obstor
 ```
 
 ### Using Source From GitHub
 
 ```sh
-git clone https://github.com/minio/minio-py
-cd minio-py
+git clone https://github.com/obstor/obstor-py
+cd obstor-py
 python setup.py install
 ```
 
-## Create a MinIO Client
+## Create a Obstor Client
 
-To connect to the target service, create a MinIO client using the `Minio()` method with the following required parameters:
+To connect to the target service, create a Obstor client using the `Obstor()` method with the following required parameters:
 
 | Parameter    | Description                                            |
 |--------------|--------------------------------------------------------|
@@ -47,10 +46,10 @@ To connect to the target service, create a MinIO client using the `Minio()` meth
 For example:
 
 ```py
-from minio import Minio
+from obstor import Obstor
 
-client = Minio(
-    endpoint="play.min.io",
+client = Obstor(
+    endpoint="demo.obstor.net",
     access_key="Q3AM3UQ867SPQQA43P2F",
     secret_key="zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG",
 )
@@ -60,23 +59,23 @@ client = Minio(
 
 This example does the following:
 
-- Connects to the MinIO `play` server using the provided credentials.
+- Connects to the Obstor `demo` server using the provided credentials.
 - Creates a bucket named `python-test-bucket` if it does not already exist.
 - Uploads a file named `test-file.txt` from `/tmp`, renaming it `my-test-file.txt`.
-- Verifies the file was created using [`mc ls`](https://min.io/docs/minio/linux/reference/minio-mc/mc-ls.html).
+- Verifies the file was created using [`mc ls`](https://obstor.net/docs/linux/reference/obstor-mc/mc-ls.html).
 
 ### `file_uploader.py`
 
 ```py
-# file_uploader.py MinIO Python SDK example
-from minio import Minio
-from minio.error import S3Error
+# file_uploader.py Obstor Python SDK example
+from obstor import Obstor
+from obstor.error import S3Error
 
 def main():
-    # Create a client with the MinIO server playground, its access key
+    # Create a client with the Obstor server playground, its access key
     # and secret key.
-    client = Minio(
-        endpoint="play.min.io",
+    client = Obstor(
+        endpoint="demo.obstor.net",
         access_key="Q3AM3UQ867SPQQA43P2F",
         secret_key="zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG",
     )
@@ -84,10 +83,10 @@ def main():
     # The file to upload, change this path if needed
     source_file = "/tmp/test-file.txt"
 
-    # The destination bucket and filename on the MinIO server
+    # The destination bucket and filename on the Obstor server
     bucket_name = "python-test-bucket"
     destination_file = "my-test-file.txt"
-    
+
     # Make the bucket if it doesn't exist.
     found = client.bucket_exists(bucket_name=bucket_name)
     if not found:
@@ -135,20 +134,20 @@ Created bucket python-test-bucket
 3. Verify the uploaded file with `mc ls`:
 
 ```sh
-mc ls play/python-test-bucket
+mc ls demo/python-test-bucket
 [2023-11-03 22:18:54 UTC]  20KiB STANDARD my-test-file.txt
 ```
 
 ## RDMA / GPUDirect Storage (optional)
 
-`put_object` and `get_object` can dispatch to MinIO's RDMA + GPUDirect
-Storage path via [minio-cpp](https://github.com/minio/minio-cpp). It is
+`put_object` and `get_object` can dispatch to Obstor's RDMA + GPUDirect
+Storage path via [obstor-cpp](https://github.com/obstor/obstor-cpp). It is
 strictly opt-in and the SDK stays pure-Python unless used.
 
 ```python
-from minio import Minio
+from obstor import Obstor
 
-client = Minio(
+client = Obstor(
     endpoint="server:9000",
     access_key="...",
     secret_key="...",
@@ -169,8 +168,8 @@ n = client.get_object(
 )
 ```
 
-Requires `libminiocpp.so` (built with `-DMINIO_CPP_ENABLE_RDMA=ON`) on the
-host's library search path (or pointed at via the `MINIOCPP_LIB` env var).
+Requires `libobstorcpp.so` (built with `-DOBSTOR_CPP_ENABLE_RDMA=ON`) on the
+host's library search path (or pointed at via the `OBSTORCPP_LIB` env var).
 GPU buffer pointers (e.g. CuPy's `arr.data.ptr`, PyTorch's `t.data_ptr()`)
 work as `data=` / `into=` arguments unchanged — pass them as `int`.
 
@@ -178,19 +177,19 @@ See `examples/put_object_rdma.py` and `examples/get_object_rdma.py`.
 
 ## More References
 
-* [Python SDK Documentation](https://docs.min.io/enterprise/aistor-object-store/developers/sdk/python/)
-* [Examples](https://github.com/minio/minio-py/tree/master/examples)
+* [Python SDK Documentation](https://obstor.net/docs/enterprise/obstor-object-store/developers/sdk/python/)
+* [Examples](https://github.com/obstor/obstor-py/tree/master/examples)
 
 ## Explore Further
 
-* [Complete Documentation](https://docs.min.io/enterprise/aistor-object-store/)
+* [Complete Documentation](https://obstor.net/docs/enterprise/obstor-object-store/)
 
 ## Contribute
 
-[Contributors Guide](https://github.com/minio/minio-py/blob/master/CONTRIBUTING.md)
+[Contributors Guide](https://github.com/obstor/obstor-py/blob/master/CONTRIBUTING.md)
 
 ## License
 
-This SDK is distributed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0), see [LICENSE](https://github.com/minio/minio-py/blob/master/LICENSE) and [NOTICE](https://github.com/minio/minio-go/blob/master/NOTICE) for more information.
+This SDK is distributed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0), see [LICENSE](https://github.com/obstor/obstor-py/blob/master/LICENSE) and [NOTICE](https://github.com/obstor/obstor-py/blob/master/NOTICE) for more information.
 
-[![PYPI](https://img.shields.io/pypi/v/minio.svg)](https://pypi.python.org/pypi/minio)
+[![PYPI](https://img.shields.io/pypi/v/obstor.svg)](https://pypi.python.org/pypi/obstor)

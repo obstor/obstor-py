@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C)
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C)
 # [2014] - [2025] MinIO, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +16,7 @@
 # limitations under the License.
 
 # pylint: disable=too-many-lines,broad-exception-raised
-"""Functional tests of minio-py."""
+"""Functional tests of obstor-py."""
 
 from __future__ import division
 
@@ -40,17 +40,17 @@ from uuid import uuid4
 import certifi
 import urllib3
 
-from minio import Minio
-from minio.args import Directive, SnowballObject, SourceObject
-from minio.checksum import CRC32C, Algorithm
-from minio.checksum import Type as ChecksumType
-from minio.checksum import base64_string
-from minio.compat import HTTPHeaderDict, HTTPQueryDict
-from minio.error import S3Error
-from minio.models import (DeleteRequest, PostPolicy,
+from obstor import Obstor
+from obstor.args import Directive, SnowballObject, SourceObject
+from obstor.checksum import CRC32C, Algorithm
+from obstor.checksum import Type as ChecksumType
+from obstor.checksum import base64_string
+from obstor.compat import HTTPHeaderDict, HTTPQueryDict
+from obstor.error import S3Error
+from obstor.models import (DeleteRequest, PostPolicy,
                           SelectObjectContentRequest, VersioningConfig)
-from minio.sse import SseCustomerKey
-from minio.time import to_http_header
+from obstor.sse import SseCustomerKey
+from obstor.time import to_http_header
 
 _client = None  # pylint: disable=invalid-name
 _test_file = None  # pylint: disable=invalid-name
@@ -73,7 +73,7 @@ def _serialize(headers: HTTPHeaderDict) -> dict:
 
 def _gen_bucket_name():
     """Generate random bucket name."""
-    return f"minio-py-test-{uuid4()}"
+    return f"obstor-py-test-{uuid4()}"
 
 
 def _get_sha256sum(filename):
@@ -156,7 +156,7 @@ def _call_test(func, *args, **kwargs):
     }
     log_entry["duration"] = int(
         round((time.time() - start_time) * 1000))
-    log_entry["name"] = 'minio-py:' + log_entry["name"]
+    log_entry["name"] = 'obstor-py:' + log_entry["name"]
     log_entry["method"] = None
     print(json.dumps({k: v for k, v in log_entry.items() if v}))
     if log_entry["status"] == "FAIL":
@@ -922,7 +922,7 @@ def test_negative_put_object_with_path_segment(  # pylint: disable=invalid-name
         )
         _client.remove_object(bucket_name=bucket_name, object_name=object_name)
     except S3Error as err:
-        if err.code != 'XMinioInvalidObjectName':
+        if err.code != 'XObstorInvalidObjectName':
             raise
     finally:
         _client.remove_bucket(bucket_name=bucket_name)
@@ -2340,7 +2340,7 @@ def test_set_get_bucket_versioning(log_entry):
 
 def main():
     """
-    Functional testing of minio python library.
+    Functional testing of obstor python library.
     """
     # pylint: disable=global-statement
     global _client, _test_file, _large_file, _test_file_crc32c, \
@@ -2348,15 +2348,15 @@ def main():
 
     access_key = os.getenv('ACCESS_KEY')
     secret_key = os.getenv('SECRET_KEY')
-    server_endpoint = os.getenv('SERVER_ENDPOINT', 'play.min.io')
+    server_endpoint = os.getenv('SERVER_ENDPOINT', 'demo.obstor.net')
     secure = os.getenv('ENABLE_HTTPS', '1') == '1'
 
-    if server_endpoint == 'play.min.io':
+    if server_endpoint == 'demo.obstor.net':
         access_key = 'Q3AM3UQ867SPQQA43P2F'
         secret_key = 'zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG'
         secure = True
 
-    _client = Minio(
+    _client = Obstor(
         endpoint=server_endpoint,
         access_key=access_key,
         secret_key=secret_key,

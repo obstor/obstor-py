@@ -28,4 +28,4 @@ var/
 .idea
 #*
 tests/functional/.*
-tests/functional/minio*
+tests/functional/obstor*

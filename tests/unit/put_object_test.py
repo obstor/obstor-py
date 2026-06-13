@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C)
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C)
 # [2014] - [2025] MinIO, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,12 +16,12 @@
 
 from unittest import TestCase
 
-from minio import Minio
+from obstor import Obstor
 
 
 class PutObjectTest(TestCase):
     def test_object_is_string(self):
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         with self.assertRaises(TypeError):
             client.put_object(
                 bucket_name='hello',
@@ -31,7 +31,7 @@ class PutObjectTest(TestCase):
             )
 
     def test_object_is_not_empty_string(self):
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         with self.assertRaises(ValueError):
             client.put_object(
                 bucket_name='hello',
@@ -41,7 +41,7 @@ class PutObjectTest(TestCase):
             )
 
     def test_length_is_string(self):
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         with self.assertRaises(TypeError):
             client.put_object(
                 bucket_name='hello',
@@ -51,7 +51,7 @@ class PutObjectTest(TestCase):
             )
 
     def test_length_is_not_empty_string(self):
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         with self.assertRaises(ValueError):
             client.put_object(
                 bucket_name='hello',

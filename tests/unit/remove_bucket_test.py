@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C)
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C)
 # [2014] - [2025] MinIO, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,25 +16,25 @@
 
 from unittest import TestCase, mock
 
-from minio import Minio
-from minio.helpers import _DEFAULT_USER_AGENT
+from obstor import Obstor
+from obstor.helpers import _DEFAULT_USER_AGENT
 
-from .minio_mocks import MockConnection, MockResponse
+from .obstor_mocks import MockConnection, MockResponse
 
 
 class RemoveBucket(TestCase):
     def test_bucket_is_string(self):
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         with self.assertRaises(TypeError):
             client.remove_bucket(bucket_name=1234)
 
     def test_bucket_is_not_empty_string(self):
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         with self.assertRaises(ValueError):
             client.remove_bucket(bucket_name='  \t \n  ')
 
     def test_remove_bucket_invalid_name(self):
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         with self.assertRaises(ValueError):
             client.remove_bucket(bucket_name='AB*CD')
 
@@ -47,5 +47,5 @@ class RemoveBucket(TestCase):
                          'https://localhost:9000/hello',
                          {'User-Agent': _DEFAULT_USER_AGENT}, 204)
         )
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         client.remove_bucket(bucket_name='hello')

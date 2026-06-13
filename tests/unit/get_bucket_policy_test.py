@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C)
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C)
 # [2014] - [2025] MinIO, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,10 +18,10 @@
 import json
 from unittest import TestCase, mock
 
-from minio import Minio
-from minio.error import S3Error
-from minio.helpers import _DEFAULT_USER_AGENT
-from tests.unit.minio_mocks import MockConnection, MockResponse
+from obstor import Obstor
+from obstor.error import S3Error
+from obstor.helpers import _DEFAULT_USER_AGENT
+from tests.unit.obstor_mocks import MockConnection, MockResponse
 
 
 class GetBucketPolicyTest(TestCase):
@@ -47,7 +47,7 @@ class GetBucketPolicyTest(TestCase):
                 content=error.encode()
             )
         )
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         with self.assertRaises(S3Error):
             client.get_bucket_policy(bucket_name=bucket_name)
 
@@ -91,6 +91,6 @@ class GetBucketPolicyTest(TestCase):
                 content=mock_data
             )
         )
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         response = client.get_bucket_policy(bucket_name=bucket_name)
         self.assertEqual(response, mock_data.decode())

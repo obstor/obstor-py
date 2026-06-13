@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C)
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C)
 # [2014] - [2025] MinIO, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,10 +16,10 @@
 
 from unittest import TestCase
 
-from minio import Minio
+from obstor import Obstor
 
 
 class TraceTest(TestCase):
     def test_bucket_is_string(self):
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         self.assertRaises(ValueError, client.trace_on, None)

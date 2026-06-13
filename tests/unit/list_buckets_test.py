@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C)
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C)
 # [2014] - [2025] MinIO, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,10 +17,10 @@
 from datetime import datetime, timezone
 from unittest import TestCase, mock
 
-from minio import Minio
-from minio.helpers import _DEFAULT_USER_AGENT
+from obstor import Obstor
+from obstor.helpers import _DEFAULT_USER_AGENT
 
-from .minio_mocks import MockConnection, MockResponse
+from .obstor_mocks import MockConnection, MockResponse
 
 
 class ListBucketsTest(TestCase):
@@ -28,8 +28,8 @@ class ListBucketsTest(TestCase):
     def test_empty_list_buckets_works(self, mock_connection):
         mock_data = ('<ListAllMyBucketsResult '
                      'xmlns="http://s3.amazonaws.com/doc/2006-03-01/">'
-                     '<Buckets></Buckets><Owner><ID>minio</ID><DisplayName>'
-                     'minio</DisplayName></Owner></ListAllMyBucketsResult>')
+                     '<Buckets></Buckets><Owner><ID>obstor</ID><DisplayName>'
+                     'obstor</DisplayName></Owner></ListAllMyBucketsResult>')
         mock_server = MockConnection()
         mock_connection.return_value = mock_server
         mock_server.mock_add_request(
@@ -41,7 +41,7 @@ class ListBucketsTest(TestCase):
                 content=mock_data.encode(),
             ),
         )
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         self.assertEqual(0, len(list(client.list_buckets())))
 
     @mock.patch('urllib3.PoolManager')
@@ -52,8 +52,8 @@ class ListBucketsTest(TestCase):
                      '<CreationDate>2015-06-22T23:07:43.240Z</CreationDate>'
                      '</Bucket><Bucket><Name>world</Name>'
                      '<CreationDate>2015-06-22T23:07:56.766Z</CreationDate>'
-                     '</Bucket></Buckets><Owner><ID>minio</ID>'
-                     '<DisplayName>minio</DisplayName></Owner>'
+                     '</Bucket></Buckets><Owner><ID>obstor</ID>'
+                     '<DisplayName>obstor</DisplayName></Owner>'
                      '</ListAllMyBucketsResult>')
         mock_server = MockConnection()
         mock_connection.return_value = mock_server
@@ -66,7 +66,7 @@ class ListBucketsTest(TestCase):
                 content=mock_data.encode(),
             ),
         )
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         buckets = list(client.list_buckets())
         self.assertEqual(2, len(buckets))
         self.assertEqual('hello', buckets[0].name)

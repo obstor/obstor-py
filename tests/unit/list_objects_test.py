@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C)
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C)
 # [2014] - [2025] MinIO, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,10 +17,10 @@
 import time
 from unittest import TestCase, mock
 
-from minio import Minio
-from minio.helpers import _DEFAULT_USER_AGENT
+from obstor import Obstor
+from obstor.helpers import _DEFAULT_USER_AGENT
 
-from .minio_mocks import MockConnection, MockResponse
+from .obstor_mocks import MockConnection, MockResponse
 
 
 class ListObjectsTest(TestCase):
@@ -47,7 +47,7 @@ class ListObjectsTest(TestCase):
                 content=mock_data.encode(),
             ),
         )
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         object_iter = client.list_objects(bucket_name='bucket', recursive=True)
         objects = []
         for obj in object_iter:
@@ -91,7 +91,7 @@ class ListObjectsTest(TestCase):
                 content=mock_data.encode(),
             ),
         )
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         objects_iter = client.list_objects(bucket_name='bucket')
         objects = []
         for obj in objects_iter:

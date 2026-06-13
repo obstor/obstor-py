@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C)
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C)
 # [2014] - [2025] MinIO, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +18,7 @@ from collections import namedtuple
 from unittest import TestCase
 from urllib.parse import urlunsplit
 
-from minio.helpers import BaseURL
+from obstor.helpers import BaseURL
 
 
 class BaseURLTests(TestCase):

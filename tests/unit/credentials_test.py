@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C)
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C)
 # [2014] - [2025] MinIO, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,9 +17,9 @@
 import os
 from unittest import TestCase
 
-from minio.credentials.providers import (AWSConfigProvider, ChainedProvider,
-                                         EnvAWSProvider, EnvMinioProvider,
-                                         MinioClientConfigProvider,
+from obstor.credentials.providers import (AWSConfigProvider, ChainedProvider,
+                                         EnvAWSProvider, EnvObstorProvider,
+                                         ObstorClientConfigProvider,
                                          StaticProvider)
 
 CONFIG_JSON_SAMPLE = "tests/unit/config.json.sample"
@@ -29,9 +29,9 @@ CREDENTIALS_EMPTY = "tests/unit/credentials.empty"
 
 class CredentialsTest(TestCase):
     def test_credentials_get(self):
-        provider = MinioClientConfigProvider(
+        provider = ObstorClientConfigProvider(
             filename=CONFIG_JSON_SAMPLE,
-            alias="play",
+            alias="demo",
         )
         creds = provider.retrieve()
         self.assertEqual(creds.access_key, "Q3AM3UQ867SPQQA43P2F")
@@ -48,14 +48,14 @@ class ChainedProviderTest(TestCase):
         os.environ["AWS_ACCESS_KEY_ID"] = "access_aws"
         os.environ["AWS_SECRET_ACCESS_KEY"] = "secret_aws"
         os.environ["AWS_SESSION_TOKEN"] = "token_aws"
-        # prepare env for env_minio
-        os.environ["MINIO_ACCESS_KEY"] = "access_minio"
-        os.environ["MINIO_SECRET_KEY"] = "secret_minio"
-        # create chain provider with env_aws and env_minio providers
+        # prepare env for env_obstor
+        os.environ["OBSTOR_ACCESS_KEY"] = "access_obstor"
+        os.environ["OBSTOR_SECRET_KEY"] = "secret_obstor"
+        # create chain provider with env_aws and env_obstor providers
 
         provider = ChainedProvider(
             [
-                EnvAWSProvider(), EnvMinioProvider(),
+                EnvAWSProvider(), EnvObstorProvider(),
             ]
         )
         # retrieve provider (env_aws) has priority
@@ -68,21 +68,21 @@ class ChainedProviderTest(TestCase):
     def test_chain_retrieve_failed_provider(self):
         # clear environment
         os.environ.clear()
-        # prepare env for env_minio
-        os.environ["MINIO_ACCESS_KEY"] = "access_minio"
-        os.environ["MINIO_SECRET_KEY"] = "secret_minio"
-        # create chain provider with env_aws and env_minio providers
+        # prepare env for env_obstor
+        os.environ["OBSTOR_ACCESS_KEY"] = "access_obstor"
+        os.environ["OBSTOR_SECRET_KEY"] = "secret_obstor"
+        # create chain provider with env_aws and env_obstor providers
 
         provider = ChainedProvider(
             [
-                EnvAWSProvider(), EnvMinioProvider(),
+                EnvAWSProvider(), EnvObstorProvider(),
             ]
         )
-        # retrieve provider: (env_minio) will be retrieved
+        # retrieve provider: (env_obstor) will be retrieved
         creds = provider.retrieve()
         # assert provider credentials
-        self.assertEqual(creds.access_key, "access_minio")
-        self.assertEqual(creds.secret_key, "secret_minio")
+        self.assertEqual(creds.access_key, "access_obstor")
+        self.assertEqual(creds.secret_key, "secret_obstor")
         self.assertEqual(creds.session_token, None)
 
 
@@ -109,12 +109,12 @@ class EnvAWSProviderTest(TestCase):
         self.assertEqual(creds.session_token, None)
 
 
-class EnvMinioTest(TestCase):
-    def test_env_minio_retrieve(self):
+class EnvObstorTest(TestCase):
+    def test_env_obstor_retrieve(self):
         os.environ.clear()
-        os.environ['MINIO_ACCESS_KEY'] = "access"
-        os.environ["MINIO_SECRET_KEY"] = "secret"
-        provider = EnvMinioProvider()
+        os.environ['OBSTOR_ACCESS_KEY'] = "access"
+        os.environ["OBSTOR_SECRET_KEY"] = "secret"
+        provider = EnvObstorProvider()
         creds = provider.retrieve()
         self.assertEqual(creds.access_key, "access")
         self.assertEqual(creds.secret_key, "secret")
@@ -173,30 +173,30 @@ class AWSConfigProviderTest(TestCase):
             pass
 
 
-class MinioClientConfigProviderTest(TestCase):
-    def test_file_minio_(self):
+class ObstorClientConfigProviderTest(TestCase):
+    def test_file_obstor_(self):
         os.environ.clear()
-        provider = MinioClientConfigProvider(filename=CONFIG_JSON_SAMPLE)
+        provider = ObstorClientConfigProvider(filename=CONFIG_JSON_SAMPLE)
         creds = provider.retrieve()
         self.assertEqual(creds.access_key, "accessKey")
         self.assertEqual(creds.secret_key, "secret")
         self.assertEqual(creds.session_token, None)
 
-    def test_file_minio_env_alias(self):
+    def test_file_obstor_env_alias(self):
         os.environ.clear()
-        os.environ["MINIO_ALIAS"] = "play"
-        provider = MinioClientConfigProvider(filename=CONFIG_JSON_SAMPLE)
+        os.environ["OBSTOR_ALIAS"] = "demo"
+        provider = ObstorClientConfigProvider(filename=CONFIG_JSON_SAMPLE)
         creds = provider.retrieve()
         self.assertEqual(creds.access_key, "Q3AM3UQ867SPQQA43P2F")
         self.assertEqual(creds.secret_key,
                          "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
         self.assertEqual(creds.session_token, None)
 
-    def test_file_minio_arg_alias(self):
+    def test_file_obstor_arg_alias(self):
         os.environ.clear()
-        provider = MinioClientConfigProvider(
+        provider = ObstorClientConfigProvider(
             filename=CONFIG_JSON_SAMPLE,
-            alias="play",
+            alias="demo",
         )
         creds = provider.retrieve()
         self.assertEqual(creds.access_key, "Q3AM3UQ867SPQQA43P2F")

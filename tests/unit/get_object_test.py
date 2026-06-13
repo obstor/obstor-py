@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C)
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C)
 # [2014] - [2025] MinIO, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,22 +16,22 @@
 
 from unittest import TestCase, mock
 
-from minio import Minio
-from minio.error import S3Error
-from minio.helpers import _DEFAULT_USER_AGENT
+from obstor import Obstor
+from obstor.error import S3Error
+from obstor.helpers import _DEFAULT_USER_AGENT
 
 from .helpers import generate_error
-from .minio_mocks import MockConnection, MockResponse
+from .obstor_mocks import MockConnection, MockResponse
 
 
 class GetObjectTest(TestCase):
     def test_object_is_string(self):
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         with self.assertRaises(TypeError):
             client.get_object(bucket_name='hello', object_name=1234)
 
     def test_object_is_not_empty_string(self):
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         with self.assertRaises(ValueError):
             client.get_object(bucket_name='hello', object_name=' \t \n ')
 
@@ -50,6 +50,6 @@ class GetObjectTest(TestCase):
                          response_headers={"Content-Type": "application/xml"},
                          content=error_xml.encode())
         )
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         with self.assertRaises(S3Error):
             client.get_object(bucket_name='hello', object_name='key')

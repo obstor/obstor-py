@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C)
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C)
 # [2014] - [2025] MinIO, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the 'License');
@@ -17,11 +17,11 @@
 import itertools
 from unittest import TestCase, mock
 
-from minio import Minio
-from minio.helpers import _DEFAULT_USER_AGENT
-from minio.models import DeleteRequest
+from obstor import Obstor
+from obstor.helpers import _DEFAULT_USER_AGENT
+from obstor.models import DeleteRequest
 
-from .minio_mocks import MockConnection, MockResponse
+from .obstor_mocks import MockConnection, MockResponse
 
 
 class RemoveObjectsTest(TestCase):
@@ -36,7 +36,7 @@ class RemoveObjectsTest(TestCase):
                           'Content-Md5': 'Te1kmIjQRNNz70DJjsrD8A=='}, 200,
                          content=b'<Delete/>')
         )
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         for err in client.remove_objects(
                 bucket_name="hello",
                 objects=[
@@ -56,7 +56,7 @@ class RemoveObjectsTest(TestCase):
                           'Content-Md5': 'Te1kmIjQRNNz70DJjsrD8A=='}, 200,
                          content=b'<Delete/>')
         )
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         for err in client.remove_objects(
                 bucket_name="hello",
                 objects=(
@@ -76,7 +76,7 @@ class RemoveObjectsTest(TestCase):
                           'Content-Md5': 'Te1kmIjQRNNz70DJjsrD8A=='}, 200,
                          content=b'<Delete/>')
         )
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         result = client.remove_objects(
             bucket_name='hello',
             objects=itertools.chain(

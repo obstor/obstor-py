@@ -1,8 +1,8 @@
-# Python Client API Reference [![Slack](https://slack.min.io/slack?type=svg)](https://slack.min.io)
+# Python Client API Reference
 
 ## 1. Constructor
 
-### Minio(*, endpoint: str, access_key: Optional[str] = None, secret_key: Optional[str] = None, session_token: Optional[str] = None, secure: bool = True, region: Optional[str] = None, http_client: Optional[urllib3.PoolManager] = None, credentials: Optional[Provider] = None, cert_check: bool = True)
+### Obstor(*, endpoint: str, access_key: Optional[str] = None, secret_key: Optional[str] = None, session_token: Optional[str] = None, secure: bool = True, region: Optional[str] = None, http_client: Optional[urllib3.PoolManager] = None, credentials: Optional[Provider] = None, cert_check: bool = True)
 Initializes a new client object.
 
 __Parameters__
@@ -16,30 +16,30 @@ __Parameters__
 | `secure`        | _bool = True_                                 | (Optional) Flag to indicate to use secure (TLS) connection to S3 service or not. |
 | `region`        | _Optional[str] = None_                        | (Optional) Region name of buckets in S3 service.                                 |
 | `http_client`   | _Optional[urllib3.PoolManager] = None_        | (Optional) Customized HTTP client.                                               |
-| `credentials`   | _Optional[minio.credentials.Provider] = None_ | (Optional) Credentials provider of your account in S3 service.                   |
+| `credentials`   | _Optional[obstor.credentials.Provider] = None_ | (Optional) Credentials provider of your account in S3 service.                   |
 | `cert_check`    | _bool = True_                                 | (Optional) Flag to check on server certificate for HTTPS connection.             |
 
 
-**NOTE on concurrent usage:** `Minio` object is thread safe when using the Python `threading` library. Specifically, it is **NOT** safe to share it between multiple processes, for example when using `multiprocessing.Pool`. The solution is simply to create a new `Minio` object in each process, and not share it between processes.
+**NOTE on concurrent usage:** `Obstor` object is thread safe when using the Python `threading` library. Specifically, it is **NOT** safe to share it between multiple processes, for example when using `multiprocessing.Pool`. The solution is simply to create a new `Obstor` object in each process, and not share it between processes.
 
 __Example__
 
 ```py
-from minio import Minio
+from obstor import Obstor
 
 # Create client with anonymous access.
-client = Minio(endpoint="play.min.io")
+client = Obstor(endpoint="demo.obstor.net")
 
 # Create client with access and secret key.
-client = Minio(
+client = Obstor(
     endpoint="s3.amazonaws.com",
     access_key="ACCESS-KEY",
     secret_key="SECRET-KEY",
 )
 
 # Create client with access key and secret key with specific region.
-client = Minio(
-    endpoint="play.minio.io:9000",
+client = Obstor(
+    endpoint="demo.obstor.net:9000",
     access_key="Q3AM3UQ867SPQQA43P2F",
     secret_key="zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG",
     region="my-region",
@@ -47,7 +47,7 @@ client = Minio(
 
 # Create client with custom HTTP client using proxy server.
 import urllib3
-client = Minio(
+client = Obstor(
     endpoint="SERVER:PORT",
     access_key="ACCESS_KEY",
     secret_key="SECRET_KEY",
@@ -115,8 +115,8 @@ __Parameters__
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `location`           | _Optional[str] = None_                         | Region in which the bucket to be created.  |
 | `object_lock`        | _bool = False_                                 | Flag to set object-lock feature.           |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -144,14 +144,14 @@ __Parameters__
 | `bucket_region`      | _Optional[str] = None_                         | Fetch buckets from the region.             |
 | `max_buckets`        | _int = 10000_                                  | Fetch maximum number of buckets.           |
 | `prefix`             | _Optional[str] = None_                         | Fetch buckets starts with the prefix.      |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Return Value__
 
 | Return                                                      |
 |:------------------------------------------------------------|
-| An iterator of _minio.models.ListAllMyBucketsResult.Bucket_ |
+| An iterator of _obstor.models.ListAllMyBucketsResult.Bucket_ |
 
 __Example__
 
@@ -173,8 +173,8 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -197,8 +197,8 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -220,20 +220,20 @@ __Parameters__
 | `prefix`                | _Optional[str] = None_                         | Object name starts with prefix.                              |
 | `recursive`             | _bool = False_                                 | List recursively than directory structure emulation.         |
 | `start_after`           | _Optional[str] = None_                         | List objects after this key name.                            |
-| `include_user_meta`     | _bool = False_                                 | MinIO specific flag to control to include user metadata.     |
+| `include_user_meta`     | _bool = False_                                 | Obstor specific flag to control to include user metadata.     |
 | `include_version`       | _bool = False_                                 | Flag to control whether include object versions.             |
 | `use_api_v1`            | _bool = False_                                 | Flag to control to use ListObjectV1 S3 API or not.           |
 | `use_url_encoding_type` | _bool = True_                                  | Flag to control whether URL encoding type to be used or not. |
 | `fetch_owner`           | _bool = False_                                 | Flag to control to fetch owner information.                  |
 | `region`                | _Optional[str] = None_                         | Region of the bucket to skip auto probing.                   |
-| `extra_headers`         | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.                            |
-| `extra_query_params`    | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.                   |
+| `extra_headers`         | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.                            |
+| `extra_query_params`    | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.                   |
 
 __Return Value__
 
 | Return                               |
 |:-------------------------------------|
-| An iterator of _minio.models.Object_ |
+| An iterator of _obstor.models.Object_ |
 
 __Example__
 
@@ -282,8 +282,8 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Return Value__
 
@@ -310,8 +310,8 @@ __Parameters__
 | `bucket_name`        | _str_                                          | Name of the bucket.                         |
 | `policy`             | _str \| bytes_                                 | Bucket policy configuration as JSON string. |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing.  |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.           |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.  |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.           |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.  |
 
 __Example__
 
@@ -379,8 +379,8 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -400,14 +400,14 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Return Value__
 
 | Param                             |
 |:----------------------------------|
-| _minio.models.CORSConfig_ object. |
+| _obstor.models.CORSConfig_ object. |
 
 __Example__
 
@@ -426,10 +426,10 @@ __Parameters__
 | Param                | Type                                           | Description                                |
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
-| `config`             | _minio.models.CORSConfig_                      | Cors configuration.                        |
+| `config`             | _obstor.models.CORSConfig_                      | Cors configuration.                        |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -464,8 +464,8 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -485,14 +485,14 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Return Value__
 
 | Param                                     |
 |:------------------------------------------|
-| _minio.models.NotificationConfig_ object. |
+| _obstor.models.NotificationConfig_ object. |
 
 __Example__
 
@@ -511,10 +511,10 @@ __Parameters__
 | Param                | Type                                           | Description                                |
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
-| `config`             | _minio.models.NotificationConfig_              | Notification configuration.                |
+| `config`             | _obstor.models.NotificationConfig_              | Notification configuration.                |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -544,8 +544,8 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -568,14 +568,14 @@ __Parameters__
 | `suffix`             | _str = ""_                                                                              | Listen events of object ends with suffix.   |
 | `events`             | _tuple[str, ...] = ('s3:ObjectCreated:*', 's3:ObjectRemoved:*', 's3:ObjectAccessed:*')_ | Events to listen.                           |
 | `region`             | _Optional[str] = None_                                                                  | Region of the bucket to skip auto probing.  |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_                                          | Extra headers for advanced usage.           |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_                                           | Extra query parameters for advanced usage.  |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_                                          | Extra headers for advanced usage.           |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_                                           | Extra query parameters for advanced usage.  |
 
 __Return Value__
 
 | Param                                                  |
 |:-------------------------------------------------------|
-| Iterator _minio.models.EventIterable_ of event records |
+| Iterator _obstor.models.EventIterable_ of event records |
 
 ```py
 with client.listen_bucket_notification(
@@ -598,14 +598,14 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Return Value__
 
 | Param                                      |
 |:-------------------------------------------|
-| _Optional[minio.models.SSEConfig]_ object. |
+| _Optional[obstor.models.SSEConfig]_ object. |
 
 __Example__
 
@@ -624,10 +624,10 @@ __Parameters__
 | Param                | Type                                           | Description                                |
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
-| `config`             | _minio.models.SSEConfig_                       | Server-side encryption configuration.      |
+| `config`             | _obstor.models.SSEConfig_                       | Server-side encryption configuration.      |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -649,8 +649,8 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -670,14 +670,14 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Return Value__
 
 | Param                                   |
 |:----------------------------------------|
-| _minio.models.VersioningConfig_ object. |
+| _obstor.models.VersioningConfig_ object. |
 
 __Example__
 
@@ -697,10 +697,10 @@ __Parameters__
 | Param                | Type                                           | Description                                |
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
-| `config`             | _minio.models.VersioningConfig_                | Versioning configuration.                  |
+| `config`             | _obstor.models.VersioningConfig_                | Versioning configuration.                  |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -720,8 +720,8 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -741,12 +741,12 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 | Return                                             |
 |:---------------------------------------------------|
-| _Optional[minio.models.ReplicationConfig]_ object. |
+| _Optional[obstor.models.ReplicationConfig]_ object. |
 
 __Example__
 
@@ -765,10 +765,10 @@ __Parameters__
 | Param                | Type                                           | Description                                |
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
-| `config`             | _minio.models.ReplicationConfig_               | Replication configuration.                 |
+| `config`             | _obstor.models.ReplicationConfig_               | Replication configuration.                 |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -810,8 +810,8 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -831,12 +831,12 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 | Return                                           |
 |:-------------------------------------------------|
-| _Optional[minio.models.LifecycleConfig]_ object. |
+| _Optional[obstor.models.LifecycleConfig]_ object. |
 
 
 __Example__
@@ -856,10 +856,10 @@ __Parameters__
 | Param                | Type                                           | Description                                |
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
-| `config`             | _minio.models.LifecycleConfig_                 | Lifecycle configuration.                   |
+| `config`             | _obstor.models.LifecycleConfig_                 | Lifecycle configuration.                   |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -895,8 +895,8 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -916,12 +916,12 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 | Return                                |
 |:--------------------------------------|
-| _Optional[minio.models.Tags]_ object. |
+| _Optional[obstor.models.Tags]_ object. |
 
 __Example__
 
@@ -940,10 +940,10 @@ __Parameters__
 | Param                | Type                                           | Description                                |
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
-| `tags`               | _minio.models.Tags_                            | Tags configuration.                        |
+| `tags`               | _obstor.models.Tags_                            | Tags configuration.                        |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -966,8 +966,8 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -987,12 +987,12 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 | Return                                  |
 |:----------------------------------------|
-| _minio.models.ObjectLockConfig_ object. |
+| _obstor.models.ObjectLockConfig_ object. |
 
 __Example__
 
@@ -1011,10 +1011,10 @@ __Parameters__
 | Param                | Type                                           | Description                                |
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
-| `config`             | _minio.models.ObjectLockConfig_                | Object-Lock configuration.                 |
+| `config`             | _obstor.models.ObjectLockConfig_                | Object-Lock configuration.                 |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -1042,24 +1042,24 @@ __Parameters__
 | `data`               | _Optional[bytes] = None_                       | Data in byte array.                                        |
 | `length`             | _Optional[int] = None_                         | Data length of `data` or `stream`.                         |
 | `chunk_size`         | _Optional[int] = None_                         | Chunk size.                                                |
-| `progress`           | _Optional[minio.args.ProgressType] = None_     | A progress object.                                         |
+| `progress`           | _Optional[obstor.args.ProgressType] = None_     | A progress object.                                         |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing.                 |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.                          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.                 |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.                          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.                 |
 
 __Return Value__
 
 | Return                                     |
 |:-------------------------------------------|
-| _minio.models.ObjectWriteResponse_ object. |
+| _obstor.models.ObjectWriteResponse_ object. |
 
 __Example__
 ```py
 # Append data.
 result = client.append_object(
-    bucket_name="my-bucket", 
-	object_name="my-object", 
-	data=io.BytesIO(b"world"), 
+    bucket_name="my-bucket",
+	object_name="my-object",
+	data=io.BytesIO(b"world"),
 	length=5,
 )
 print(f"appended {result.object_name} object; etag: {result.etag}")
@@ -1069,8 +1069,8 @@ with urlopen(
     "https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.13.12.tar.xz",
 ) as stream:
     result = client.append_object(
-        bucket_name="my-bucket", 
-        object_name="my-object", 
+        bucket_name="my-bucket",
+        object_name="my-object",
         stream=stream,
         length=148611164,
         chunk_size=5*1024*1024,
@@ -1082,8 +1082,8 @@ with urlopen(
     "https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.14.3.tar.xz",
 ) as stream:
     result = client.append_object(
-        bucket_name="my-bucket", 
-        object_name="my-object", 
+        bucket_name="my-bucket",
+        object_name="my-object",
         stream=stream,
         chunk_size=5*1024*1024,
     )
@@ -1103,7 +1103,7 @@ __Parameters__
 | `bucket_name`        | _str_                                          | Name of the bucket.                         |
 | `object_name`        | _str_                                          | Object name in the bucket.                  |
 | `version_id`         | _Optional[str] = None_                         | Version-ID of the object.                   |
-| `ssec`               | _Optional[minio.sse.SseCustomerKey] = None_    | Server-side encryption customer key.        |
+| `ssec`               | _Optional[obstor.sse.SseCustomerKey] = None_    | Server-side encryption customer key.        |
 | `offset`             | _int = 0_                                      | Start byte position of object data.         |
 | `length`             | _Optional[int] = None_                         | Number of bytes of object data from offset. |
 | `match_etag`         | _Optional[str] = None_                         | Match ETag of the object.                   |
@@ -1112,14 +1112,14 @@ __Parameters__
 | `unmodified_since`   | _Optional[datetime.datetime] = None_           | Unmodified-since of the object.             |
 | `fetch_checksum`     | _bool = False_                                 | Fetch object checksum.                      |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing.  |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.           |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.  |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.           |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.  |
 
 __Return Value__
 
 | Return                                   |
 |:-----------------------------------------|
-| _minio.models.GetObjectResponse_ object. |
+| _obstor.models.GetObjectResponse_ object. |
 
 __Example__
 
@@ -1178,16 +1178,16 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `object_name`        | _str_                                          | Object name in the bucket.                 |
-| `request`            | _minio.models.SelectObjectContentRequest_      | Select request.                            |
+| `request`            | _obstor.models.SelectObjectContentRequest_      | Select request.                            |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Return Value__
 
 | Return                                      |
 |:--------------------------------------------|
-| _minio.models.SelectObjectResponse_ object. |
+| _obstor.models.SelectObjectResponse_ object. |
 
 __Example__
 
@@ -1221,23 +1221,23 @@ __Parameters__
 | `object_name`        | _str_                                          | Object name in the bucket.                  |
 | `file_path`          | _str_                                          | Name of file to download.                   |
 | `version_id`         | _Optional[str] = None_                         | Version-ID of the object.                   |
-| `ssec`               | _Optional[minio.sse.SseCustomerKey] = None_    | Server-side encryption customer key.        |
+| `ssec`               | _Optional[obstor.sse.SseCustomerKey] = None_    | Server-side encryption customer key.        |
 | `offset`             | _int = 0_                                      | Start byte position of object data.         |
 | `length`             | _Optional[int] = None_                         | Number of bytes of object data from offset. |
 | `tmp_file_path`      | _Optional[str] = None_                         | Path to a temporary file.                   |
-| `progress`           | _Optional[minio.args.ProgressType] = None_     | A progress object.                          |
+| `progress`           | _Optional[obstor.args.ProgressType] = None_     | A progress object.                          |
 | `match_etag`         | _Optional[str] = None_                         | Match ETag of the object.                   |
 | `not_match_etag`     | _Optional[str] = None_                         | None-match ETag of the object.              |
 | `modified_since`     | _Optional[datetime.datetime] = None_           | Modified-since of the object.               |
 | `unmodified_since`   | _Optional[datetime.datetime] = None_           | Unmodified-since of the object.             |
 | `fetch_checksum`     | _bool = False_                                 | Fetch object checksum.                      |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing.  |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.           |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.  |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.           |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.  |
 
 | Return                                   |
 |:-----------------------------------------|
-| _minio.models.GetObjectResponse_ object. |
+| _obstor.models.GetObjectResponse_ object. |
 
 __Example__
 
@@ -1278,30 +1278,30 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:----------------------------------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                                                   |
 | `object_name`        | _str_                                          | Object name in the bucket.                                            |
-| `source`             | _minio.args.CopySource_                        | Source object information.                                            |
-| `sse`                | _Optional[minio.sse.Sse] = None_               | Server-side encryption of destination object.                         |
-| `user_metadata`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Any user-defined metadata to be copied along with destination object. |
-| `tags`               | _Optional[minio.models.Tags] = None_           | Tags for destination object.                                          |
-| `retention`          | _Optional[minio.models.Retention] = None_      | Retention configuration.                                              |
+| `source`             | _obstor.args.CopySource_                        | Source object information.                                            |
+| `sse`                | _Optional[obstor.sse.Sse] = None_               | Server-side encryption of destination object.                         |
+| `user_metadata`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Any user-defined metadata to be copied along with destination object. |
+| `tags`               | _Optional[obstor.models.Tags] = None_           | Tags for destination object.                                          |
+| `retention`          | _Optional[obstor.models.Retention] = None_      | Retention configuration.                                              |
 | `legal_hold`         | _bool = False_                                 | Flag to set legal hold for destination object.                        |
 | `metadata_directive` | _Optional[str] = None_                         | Directive used to handle user metadata for destination object.        |
 | `tagging_directive`  | _Optional[str] = None_                         | Directive used to handle tags for destination object.                 |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing.                            |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.                                     |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.                            |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.                                     |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.                            |
 
 
 __Return Value__
 
 | Return                                     |
 |:-------------------------------------------|
-| _minio.models.ObjectWriteResponse_ object. |
+| _obstor.models.ObjectWriteResponse_ object. |
 
 __Example__
 
 ```py
 from datetime import datetime, timezone
-from minio.commonconfig import REPLACE, CopySource
+from obstor.commonconfig import REPLACE, CopySource
 
 # copy an object from a bucket to another.
 result = client.copy_object(
@@ -1353,28 +1353,28 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:----------------------------------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                                                   |
 | `object_name`        | _str_                                          | Object name in the bucket.                                            |
-| `sources`            | _list[minio.models.ComposeSource]_             | List of _ComposeSource_ object.                                       |
-| `sse`                | _Optional[minio.sse.Sse] = None_               | Server-side encryption of destination object.                         |
-| `user_metadata`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Any user-defined metadata to be copied along with destination object. |
-| `tags`               | _Optional[minio.models.Tags] = None_           | Tags for destination object.                                          |
-| `retention`          | _Optional[minio.models.Retention] = None_      | Retention configuration.                                              |
+| `sources`            | _list[obstor.models.ComposeSource]_             | List of _ComposeSource_ object.                                       |
+| `sse`                | _Optional[obstor.sse.Sse] = None_               | Server-side encryption of destination object.                         |
+| `user_metadata`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Any user-defined metadata to be copied along with destination object. |
+| `tags`               | _Optional[obstor.models.Tags] = None_           | Tags for destination object.                                          |
+| `retention`          | _Optional[obstor.models.Retention] = None_      | Retention configuration.                                              |
 | `legal_hold`         | _bool = False_                                 | Flag to set legal hold for destination object.                        |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing.                            |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.                                     |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.                            |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.                                     |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.                            |
 
 
 __Return Value__
 
 | Return                                     |
 |:-------------------------------------------|
-| _minio.models.ObjectWriteResponse_ object. |
+| _obstor.models.ObjectWriteResponse_ object. |
 
 __Example__
 
 ```py
-from minio.commonconfig import ComposeSource
-from minio.sse import SseS3
+from obstor.commonconfig import ComposeSource
+from obstor.sse import SseS3
 
 sources = [
     ComposeSource(
@@ -1436,25 +1436,25 @@ __Parameters__
 | `data`                 | _io.BinaryIO_                                  | An object having callable read() returning bytes object.  |
 | `length`               | _int_                                          | Data size; -1 for unknown size and set valid `part_size`. |
 | `content_type`         | _str = "application/octet-stream"_             | Content type of the object.                               |
-| `headers`              | _Optional[minio.compat.HTTPHeaderDict] = None_ | Additional headers.                                       |
-| `user_metadata`        | _Optional[minio.compat.HTTPHeaderDict] = None_ | User metadata of the object.                              |
-| `sse`                  | _Optional[minio.sse.Sse] = None_               | Server-side encryption.                                   |
-| `progress`             | _Optional[minio.args.ProgressType] = None_     | A progress object.                                        |
+| `headers`              | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Additional headers.                                       |
+| `user_metadata`        | _Optional[obstor.compat.HTTPHeaderDict] = None_ | User metadata of the object.                              |
+| `sse`                  | _Optional[obstor.sse.Sse] = None_               | Server-side encryption.                                   |
+| `progress`             | _Optional[obstor.args.ProgressType] = None_     | A progress object.                                        |
 | `part_size`            | _int = 0_                                      | Multipart part size.                                      |
-| `checksum`             | _Optional[minio.checksum.Algorithm] = None_    | Algorithm for checksum computation.                       |
+| `checksum`             | _Optional[obstor.checksum.Algorithm] = None_    | Algorithm for checksum computation.                       |
 | `num_parallel_uploads` | _int = 3_                                      | Number of parallel uploads.                               |
-| `tags`                 | _Optional[minio.models.Tags] = None_           | Tags for the object.                                      |
-| `retention`            | _Optional[minio.models.Retention] = None_      | Retention configuration.                                  |
+| `tags`                 | _Optional[obstor.models.Tags] = None_           | Tags for the object.                                      |
+| `retention`            | _Optional[obstor.models.Retention] = None_      | Retention configuration.                                  |
 | `legal_hold`           | _bool = False_                                 | Flag to set legal hold for the object.                    |
 | `region`               | _Optional[str] = None_                         | Region of the bucket to skip auto probing.                |
-| `extra_headers`        | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.                         |
-| `extra_query_params`   | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.                |
+| `extra_headers`        | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.                         |
+| `extra_query_params`   | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.                |
 
 __Return Value__
 
 | Return                                     |
 |:-------------------------------------------|
-| _minio.models.ObjectWriteResponse_ object. |
+| _obstor.models.ObjectWriteResponse_ object. |
 
 __Example__
 ```py
@@ -1599,25 +1599,25 @@ __Parameters__
 | `object_name`          | _str_                                          | Object name in the bucket.                 |
 | `file_path`            | _str_                                          | Name of file to upload.                    |
 | `content_type`         | _str = "application/octet-stream"_             | Content type of the object.                |
-| `headers`              | _Optional[minio.compat.HTTPHeaderDict] = None_ | Additional headers.                        |
-| `user_metadata`        | _Optional[minio.compat.HTTPHeaderDict] = None_ | User metadata of the object.               |
-| `sse`                  | _Optional[minio.sse.Sse] = None_               | Server-side encryption.                    |
-| `progress`             | _Optional[minio.args.ProgressType] = None_     | A progress object.                         |
+| `headers`              | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Additional headers.                        |
+| `user_metadata`        | _Optional[obstor.compat.HTTPHeaderDict] = None_ | User metadata of the object.               |
+| `sse`                  | _Optional[obstor.sse.Sse] = None_               | Server-side encryption.                    |
+| `progress`             | _Optional[obstor.args.ProgressType] = None_     | A progress object.                         |
 | `part_size`            | _int = 0_                                      | Multipart part size.                       |
-| `checksum`             | _Optional[minio.checksum.Algorithm] = None_    | Algorithm for checksum computation.        |
+| `checksum`             | _Optional[obstor.checksum.Algorithm] = None_    | Algorithm for checksum computation.        |
 | `num_parallel_uploads` | _int = 3_                                      | Number of parallel uploads.                |
-| `tags`                 | _Optional[minio.models.Tags] = None_           | Tags for the object.                       |
-| `retention`            | _Optional[minio.models.Retention] = None_      | Retention configuration.                   |
+| `tags`                 | _Optional[obstor.models.Tags] = None_           | Tags for the object.                       |
+| `retention`            | _Optional[obstor.models.Retention] = None_      | Retention configuration.                   |
 | `legal_hold`           | _bool = False_                                 | Flag to set legal hold for the object.     |
 | `region`               | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`        | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params`   | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`        | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params`   | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Return Value__
 
 | Return                                     |
 |:-------------------------------------------|
-| _minio.models.ObjectWriteResponse_ object. |
+| _obstor.models.ObjectWriteResponse_ object. |
 
 __Example__
 
@@ -1751,19 +1751,19 @@ __Parameters__
 | `object_name`        | _str_                                          | Object name in the bucket.                               |
 | `data`               | _io.BinaryIO_                                  | An object having callable read() returning bytes object. |
 | `length`             | _int_                                          | Size of the data in bytes.                               |
-| `entries`            | _list[minio.args.PutObjectFanOutEntry]_        | Objects to be created.                                   |
-| `sse`                | _Optional[minio.sse.Sse] = None_               | Server-side encryption.                                  |
-| `checksum`           | _Optional[minio.checksum.Algorithm] = None_    | Algorithm for checksum computation.                      |
+| `entries`            | _list[obstor.args.PutObjectFanOutEntry]_        | Objects to be created.                                   |
+| `sse`                | _Optional[obstor.sse.Sse] = None_               | Server-side encryption.                                  |
+| `checksum`           | _Optional[obstor.checksum.Algorithm] = None_    | Algorithm for checksum computation.                      |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing.               |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.                        |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.               |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.                        |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.               |
 
 
 __Return Value__
 
 | Return                                         |
 |:-----------------------------------------------|
-| _minio.models.PutObjectFanOutResponse_ object. |
+| _obstor.models.PutObjectFanOutResponse_ object. |
 
 __Example__
 ```py
@@ -1800,7 +1800,7 @@ __Parameters__
 | `bucket_name`        | _str_                                          | Name of the bucket.                         |
 | `object_name`        | _str_                                          | Object name in the bucket.                  |
 | `version_id`         | _Optional[str] = None_                         | Version ID of the object.                   |
-| `ssec`               | _Optional[minio.sse.SseCustomerKey] = None_    | Server-side encryption customer key.        |
+| `ssec`               | _Optional[obstor.sse.SseCustomerKey] = None_    | Server-side encryption customer key.        |
 | `offset`             | _int = 0_                                      | Start byte position of object data.         |
 | `length`             | _Optional[int] = None_                         | Number of bytes of object data from offset. |
 | `match_etag`         | _Optional[str] = None_                         | Match ETag of the object.                   |
@@ -1809,14 +1809,14 @@ __Parameters__
 | `unmodified_since`   | _Optional[datetime.datetime] = None_           | Unmodified-since of the object.             |
 | `fetch_checksum`     | _bool = False_                                 | Fetch object checksum.                      |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing.  |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.           |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.  |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.           |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.  |
 
 __Return Value__
 
 | Return                                    |
 |:------------------------------------------|
-| _minio.models.StatObjectResponse_ object. |
+| _obstor.models.StatObjectResponse_ object. |
 
 __Example__
 
@@ -1859,8 +1859,8 @@ __Parameters__
 | `object_name`        | _str_                                          | Object name in the bucket.                 |
 | `version_id`         | _Optional[str] = None_                         | Version ID of the object.                  |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -1890,17 +1890,17 @@ __Parameters__
 | Param                    | Type                                           | Description                                |
 |:-------------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`            | _str_                                          | Name of the bucket.                        |
-| `delete_object_list`     | _Iterable[minio.models.DeleteRequest.Object]_  | DeleteObject iterable.                     |
+| `delete_object_list`     | _Iterable[obstor.models.DeleteRequest.Object]_  | DeleteObject iterable.                     |
 | `bypass_governance_mode` | _bool = False_                                 | Bypass Governance retention mode.          |
 | `region`                 | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`          | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params`     | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`          | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params`     | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Return Value__
 
 | Return                                              |
 |:----------------------------------------------------|
-| _Iterator[minio.models.DeleteResult.Error]_ object. |
+| _Iterator[obstor.models.DeleteResult.Error]_ object. |
 
 __Example__
 
@@ -1951,8 +1951,8 @@ __Parameters__
 | `object_name`        | _str_                                          | Object name in the bucket.                 |
 | `version_id`         | _Optional[str] = None_                         | Version ID of the object.                  |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -1973,19 +1973,19 @@ __Parameters__
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `object_name`        | _str_                                          | Object name in the bucket.                 |
 | `version_id`         | _Optional[str] = None_                         | Version ID of the object.                  |
-| `ssec`               | _Optional[minio.sse.SseCustomerKey] = None_    | Server-side encryption customer key.       |
+| `ssec`               | _Optional[obstor.sse.SseCustomerKey] = None_    | Server-side encryption customer key.       |
 | `object_attributes`  | _Optional[list[str]] = None_                   | Object attributes.                         |
 | `max_parts`          | _Optional[int] = None_                         | Maximum parts to fetch.                    |
 | `part_number_marker` | _Optional[int] = None_                         | Part number marker to fetch remaining..    |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Return Value__
 
 | Return                                                       |
 |:-------------------------------------------------------------|
-| _Optional[minio.models.GetObjectAttributesResponse]_ object. |
+| _Optional[obstor.models.GetObjectAttributesResponse]_ object. |
 
 
 __Example__
@@ -2011,14 +2011,14 @@ __Parameters__
 | `object_name`        | _str_                                          | Object name in the bucket.                 |
 | `version_id`         | _Optional[str] = None_                         | Version ID of the object.                  |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Return Value__
 
 | Return                                                |
 |:------------------------------------------------------|
-| _Optional[minio.models.GetObjectAclResponse]_ object. |
+| _Optional[obstor.models.GetObjectAclResponse]_ object. |
 
 
 __Example__
@@ -2044,12 +2044,12 @@ __Parameters__
 | `object_name`        | _str_                                          | Object name in the bucket.                 |
 | `version_id`         | _Optional[str] = None_                         | Version ID of the object.                  |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 | Return                                |
 |:--------------------------------------|
-| _Optional[minio.models.Tags]_ object. |
+| _Optional[obstor.models.Tags]_ object. |
 
 __Example__
 
@@ -2069,11 +2069,11 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `object_name`        | _str_                                          | Object name in the bucket.                 |
-| `tags`               | _minio.models.Tags_                            | Tags configuration.                        |
+| `tags`               | _obstor.models.Tags_                            | Tags configuration.                        |
 | `version_id`         | _Optional[str] = None_                         | Version ID of the object.                  |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -2098,8 +2098,8 @@ __Parameters__
 | `object_name`        | _str_                                          | Object name in the bucket.                 |
 | `version_id`         | _Optional[str] = None_                         | Version ID of the object.                  |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -2121,8 +2121,8 @@ __Parameters__
 | `object_name`        | _str_                                          | Object name in the bucket.                 |
 | `version_id`         | _Optional[str] = None_                         | Version ID of the object.                  |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -2144,8 +2144,8 @@ __Parameters__
 | `object_name`        | _str_                                          | Object name in the bucket.                 |
 | `version_id`         | _Optional[str] = None_                         | Version ID of the object.                  |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -2173,14 +2173,14 @@ __Parameters__
 | `object_name`        | _str_                                          | Object name in the bucket.                 |
 | `version_id`         | _Optional[str] = None_                         | Version ID of the object.                  |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Return Value__
 
 | Return                                     |
 |:-------------------------------------------|
-| _Optional[minio.models.Retention]_ object. |
+| _Optional[obstor.models.Retention]_ object. |
 
 
 __Example__
@@ -2204,11 +2204,11 @@ __Parameters__
 |:---------------------|:-----------------------------------------------|:-------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                        |
 | `object_name`        | _str_                                          | Object name in the bucket.                 |
-| `config`             | _minio.models.Retention_                       | Retention configuration.                   |
+| `config`             | _obstor.models.Retention_                       | Retention configuration.                   |
 | `version_id`         | _Optional[str] = None_                         | Version ID of the object.                  |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing. |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.          |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage. |
 
 __Example__
 
@@ -2235,18 +2235,18 @@ __Parameters__
 | `object_name`        | _str_                                          | Object name in the bucket.                                              |
 | `prompt`             | _str_                                          | Natural language prompt to interact with the object using the AI model. |
 | `lambda_arn`         | _Optional[str] = None_                         | AWS Lambda ARN to use for processing the prompt.                        |
-| `ssec`               | _Optional[minio.sse.SseCustomerKey] = None_    | Server-side encryption customer key.                                    |
+| `ssec`               | _Optional[obstor.sse.SseCustomerKey] = None_    | Server-side encryption customer key.                                    |
 | `version_id`         | _Optional[str] = None_                         | Version ID of the object.                                               |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing.                              |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.                                       |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.                              |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.                                       |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.                              |
 | `**kwargs`           | _Optional[Any]_                                | Additional parameters for advanced usage.                               |
 
 __Return Value__
 
 | Return                                      |
 |:--------------------------------------------|
-| _minio.models.PromptObjectResponse_ object. |
+| _obstor.models.PromptObjectResponse_ object. |
 
 __Example__
 
@@ -2280,7 +2280,7 @@ __Parameters__
 | `request_date`       | _Optional[datetime.datetime] = None_              | Request time instead of current time.      |
 | `version_id`         | _Optional[str] = None_                            | Version ID of the object.                  |
 | `region`             | _Optional[str] = None_                            | Region of the bucket to skip auto probing. |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_     | Extra query parameters for advanced usage. |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_     | Extra query parameters for advanced usage. |
 
 __Return Value__
 
@@ -2294,7 +2294,7 @@ __Example__
 # Get presigned URL string to download 'my-object' in
 # 'my-bucket' with default expiry (i.e. 7 days).
 url = client.presigned_get_object(
-    bucket_name="my-bucket", 
+    bucket_name="my-bucket",
     object_name="my-object",
 )
 print(url)
@@ -2302,7 +2302,7 @@ print(url)
 # Get presigned URL string to download 'my-object' in
 # 'my-bucket' with two hours expiry.
 url = client.presigned_get_object(
-    bucket_name="my-bucket", 
+    bucket_name="my-bucket",
     object_name="my-object",
     expires=timedelta(hours=2),
 )
@@ -2323,7 +2323,7 @@ __Parameters__
 | `object_name`        | _str_                                             | Object name in the bucket.                 |
 | `expires`            | _datetime.timedelta = datetime.timedelta(days=7)_ | Expiry in seconds.                         |
 | `region`             | _Optional[str] = None_                            | Region of the bucket to skip auto probing. |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_     | Extra query parameters for advanced usage. |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_     | Extra query parameters for advanced usage. |
 
 __Return Value__
 
@@ -2337,7 +2337,7 @@ __Example__
 # Get presigned URL string to upload data to 'my-object' in
 # 'my-bucket' with default expiry (i.e. 7 days).
 url = client.presigned_put_object(
-    bucket_name="my-bucket", 
+    bucket_name="my-bucket",
     object_name="my-object",
 )
 print(url)
@@ -2345,7 +2345,7 @@ print(url)
 # Get presigned URL string to upload data to 'my-object' in
 # 'my-bucket' with two hours expiry.
 url = client.presigned_put_object(
-    bucket_name="my-bucket", 
+    bucket_name="my-bucket",
     object_name="my-object",
     expires=timedelta(hours=2),
 )
@@ -2362,7 +2362,7 @@ __Parameters__
 
 | Param    | Type                      | Description  |
 |:---------|:--------------------------|:-------------|
-| `policy` | _minio.models.PostPolicy_ | Post policy. |
+| `policy` | _obstor.models.PostPolicy_ | Post policy. |
 
 __Return Value__
 
@@ -2400,7 +2400,7 @@ __Parameters__
 | `request_date`       | _Optional[datetime.datetime] = None_              | Request time instead of current time.      |
 | `version_id`         | _Optional[str] = None_                            | Version ID of the object.                  |
 | `region`             | _Optional[str] = None_                            | Region of the bucket to skip auto probing. |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_     | Extra query parameters for advanced usage. |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_     | Extra query parameters for advanced usage. |
 
 __Return Value__
 
@@ -2455,24 +2455,24 @@ __Parameters__
 | Param                | Type                                           | Description                                        |
 |:---------------------|:-----------------------------------------------|:---------------------------------------------------|
 | `bucket_name`        | _str_                                          | Name of the bucket.                                |
-| `objects`            | _Iterable[minio.models.SnowballObject]_        | An iterable contain snowball object.               |
-| `headers`            | _Optional[minio.compat.HTTPHeaderDict] = None_ | Additional headers.                                |
-| `user_metadata`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | User metadata.                                     |
-| `sse`                | _Optional[minio.sse.Sse] = None_               | Server-side encryption.                            |
-| `tags`               | _Optional[minio.models.Tags] = None_           | Tags for the object.                               |
-| `retention`          | _Optional[minio.models.Retention] = None_      | Retention configuration.                           |
+| `objects`            | _Iterable[obstor.models.SnowballObject]_        | An iterable contain snowball object.               |
+| `headers`            | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Additional headers.                                |
+| `user_metadata`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | User metadata.                                     |
+| `sse`                | _Optional[obstor.sse.Sse] = None_               | Server-side encryption.                            |
+| `tags`               | _Optional[obstor.models.Tags] = None_           | Tags for the object.                               |
+| `retention`          | _Optional[obstor.models.Retention] = None_      | Retention configuration.                           |
 | `legal_hold`         | _bool = False_                                 | Flag to set legal hold for the object.             |
 | `staging_filename`   | _Optional[str] = None_                         | A staging filename to create intermediate tarball. |
 | `compression`        | _bool = False_                                 | Flag to compress tarball.                          |
 | `region`             | _Optional[str] = None_                         | Region of the bucket to skip auto probing.         |
-| `extra_headers`      | _Optional[minio.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.                  |
-| `extra_query_params` | _Optional[minio.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.         |
+| `extra_headers`      | _Optional[obstor.compat.HTTPHeaderDict] = None_ | Extra headers for advanced usage.                  |
+| `extra_query_params` | _Optional[obstor.compat.HTTPQueryDict] = None_  | Extra query parameters for advanced usage.         |
 
 __Return Value__
 
 | Return                                     |
 |:-------------------------------------------|
-| _minio.models.ObjectWriteResponse_ object. |
+| _obstor.models.ObjectWriteResponse_ object. |
 
 __Example__
 
@@ -2502,6 +2502,6 @@ client.upload_snowball_objects(
 
 ## 5. Explore Further
 
-- [MinIO Golang Client SDK Quickstart Guide](https://docs.min.io/enterprise/aistor-object-store/developers/sdk/go/)
-- [MinIO Java Client SDK Quickstart Guide](https://docs.min.io/enterprise/aistor-object-store/developers/sdk/java/)
-- [MinIO JavaScript Client SDK Quickstart Guide](https://docs.min.io/enterprise/aistor-object-store/developers/sdk/javascript/)
+- [Obstor Golang Client SDK Quickstart Guide](https://obstor.net/docs/enterprise/obstor-object-store/developers/sdk/go/)
+- [Obstor Java Client SDK Quickstart Guide](https://obstor.net/docs/enterprise/obstor-object-store/developers/sdk/java/)
+- [Obstor JavaScript Client SDK Quickstart Guide](https://obstor.net/docs/enterprise/obstor-object-store/developers/sdk/javascript/)

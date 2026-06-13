@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C) 2020 MinIO, Inc.
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C) 2020 MinIO, Inc.
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -15,36 +15,36 @@
 #  limitations under the License.
 #
 
-function run_minio_server() {
-	if [ ! -f tests/functional/minio ]; then
-		wget --quiet --output-document tests/functional/minio https://dl.min.io/server/minio/release/linux-amd64/minio
-		chmod +x tests/functional/minio
+function run_obstor_server() {
+	if [ ! -f tests/functional/obstor ]; then
+		wget --quiet --output-document tests/functional/obstor https://dl.pgg.net/server/obstor/release/linux-amd64/obstor
+		chmod +x tests/functional/obstor
 	fi
 
-	export MINIO_KMS_KES_ENDPOINT=https://play.min.io:7373
-	export MINIO_KMS_KES_KEY_FILE=tests/functional/play.min.io.kes.root.key
-	export MINIO_KMS_KES_CERT_FILE=tests/functional/play.min.io.kes.root.cert
-	export MINIO_KMS_KES_KEY_NAME=my-minio-key
-	export MINIO_NOTIFY_WEBHOOK_ENABLE_miniopytest=on
-	export MINIO_NOTIFY_WEBHOOK_ENDPOINT_miniopytest=http://example.org/
-	export SQS_ARN="arn:minio:sqs::miniopytest:webhook"
-	export MINIO_CI_CD=1
-	tests/functional/minio server --config-dir tests/functional/.cfg tests/functional/.d{1...4} >tests/functional/minio.log 2>&1 &
+	export OBSTOR_KMS_KES_ENDPOINT=https://demo.obstor.net:7373
+	export OBSTOR_KMS_KES_KEY_FILE=tests/functional/demo.obstor.net.kes.root.key
+	export OBSTOR_KMS_KES_CERT_FILE=tests/functional/demo.obstor.net.kes.root.cert
+	export OBSTOR_KMS_KES_KEY_NAME=my-obstor-key
+	export OBSTOR_NOTIFY_WEBHOOK_ENABLE_obstorpytest=on
+	export OBSTOR_NOTIFY_WEBHOOK_ENDPOINT_obstorpytest=http://example.org/
+	export SQS_ARN="arn:obstor:sqs::obstorpytest:webhook"
+	export OBSTOR_CI_CD=1
+	tests/functional/obstor server --config-dir tests/functional/.cfg tests/functional/.d{1...4} >tests/functional/obstor.log 2>&1 &
 }
 
 if [ -z ${SERVER_ENDPOINT+x} ]; then
-	run_minio_server
-	MINIO_PID=$!
-	trap 'kill -9 ${MINIO_PID} 2>/dev/null' INT
+	run_obstor_server
+	OBSTOR_PID=$!
+	trap 'kill -9 ${OBSTOR_PID} 2>/dev/null' INT
 
 	export MINT_MODE=full
 	export SERVER_ENDPOINT=localhost:9000
-	export ACCESS_KEY=minioadmin
-	export SECRET_KEY=minioadmin
+	export ACCESS_KEY=obstoradmin
+	export SECRET_KEY=obstoradmin
 	export ENABLE_HTTPS=0
 fi
 
 PYTHONPATH=$PWD python tests/functional/tests.py
-if [ -n "$MINIO_PID" ]; then
-	kill -9 "$MINIO_PID" 2>/dev/null
+if [ -n "$OBSTOR_PID" ]; then
+	kill -9 "$OBSTOR_PID" 2>/dev/null
 fi

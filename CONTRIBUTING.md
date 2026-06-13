@@ -1,7 +1,7 @@
 # Contributors Guide
-``minio-py`` welcomes your contribution. Below steps can be followed to create a pull request.
+``obstor-py`` welcomes your contribution. Below steps can be followed to create a pull request.
 
-* Fork this minio-py repository into your account.
+* Fork this obstor-py repository into your account.
 * Create a feature branch in your fork (`$ git checkout -b my-new-feature`).
 * Hack, hack, hack...
 * Run checks. (`$ make check`).

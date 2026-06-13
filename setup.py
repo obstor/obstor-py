@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C)
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C)
 # [2014] - [2025] MinIO, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,37 +25,37 @@ from setuptools import find_packages, setup
 
 ROOT = Path(__file__).parent
 
-# Read version from minio/__init__.py
-init_py = ROOT / "minio" / "__init__.py"
+# Read version from obstor/__init__.py
+init_py = ROOT / "obstor" / "__init__.py"
 version_match = re.search(
     r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
     init_py.read_text(encoding="utf-8"),
     re.MULTILINE,
 )
 if not version_match:
-    raise RuntimeError("Unable to find __version__ in minio/__init__.py")
+    raise RuntimeError("Unable to find __version__ in obstor/__init__.py")
 version = version_match.group(1)
 
 # Long description
 readme = (ROOT / "README.md").read_text(encoding="utf-8")
 
 setup(
-    name="minio",
+    name="obstor",
     version=version,
-    description="MinIO Python SDK for Amazon S3 Compatible Cloud Storage",
+    description="Obstor Python SDK for Amazon S3 Compatible Cloud Storage",
     long_description=readme,
     long_description_content_type="text/markdown",
-    author="MinIO, Inc.",
-    author_email="dev@min.io",
-    url="https://github.com/minio/minio-py",
+    author="PGG, Inc.",
+    author_email="oss@obstor.net",
+    url="https://github.com/obstor/obstor-py",
     project_urls={
-        "Source": "https://github.com/minio/minio-py",
-        "Issues": "https://github.com/minio/minio-py/issues",
-        "Changelog": "https://github.com/minio/minio-py/releases",
+        "Source": "https://github.com/obstor/obstor-py",
+        "Issues": "https://github.com/obstor/obstor-py/issues",
+        "Changelog": "https://github.com/obstor/obstor-py/releases",
     },
     license="Apache-2.0",
     package_dir={"": "."},
-    packages=find_packages(include=["minio", "minio.*"]),
+    packages=find_packages(include=["obstor", "obstor.*"]),
     python_requires=">=3.10",
     install_requires=[
         "certifi",
@@ -66,7 +66,7 @@ setup(
     ],
     include_package_data=True,
     package_data={
-        "minio": ["LICENSE", "README.md", "py.typed"],
+        "obstor": ["LICENSE", "README.md", "py.typed"],
     },
     classifiers=[
         "Development Status :: 5 - Production/Stable",

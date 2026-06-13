@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage,
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage,
 # (C) [2024] - [2026] MinIO, Inc.
 # SPDX-License-Identifier: Apache-2.0
-"""Download from MinIO over RDMA into a pre-allocated host buffer."""
+"""Download from Obstor over RDMA into a pre-allocated host buffer."""
 
 import os
-from minio import Minio
+from obstor import Obstor
 
-client = Minio(
-    endpoint=os.environ.get("MINIO_ENDPOINT", "coe01:9000"),
-    access_key=os.environ.get("MINIO_ACCESS_KEY", "minioadmin"),
-    secret_key=os.environ.get("MINIO_SECRET_KEY", "minioadmin"),
+client = Obstor(
+    endpoint=os.environ.get("OBSTOR_ENDPOINT", "coe01:9000"),
+    access_key=os.environ.get("OBSTOR_ACCESS_KEY", "obstoradmin"),
+    secret_key=os.environ.get("OBSTOR_SECRET_KEY", "obstoradmin"),
     secure=False,
     enable_rdma=True,
 )

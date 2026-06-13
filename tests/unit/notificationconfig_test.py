@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C)
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C)
 # [2014] - [2025] MinIO, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +16,8 @@
 
 from unittest import TestCase
 
-from minio import xml
-from minio.models import NotificationConfig
+from obstor import xml
+from obstor.models import NotificationConfig
 
 
 class NotificationConfigTest(TestCase):

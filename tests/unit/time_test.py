@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C)
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C)
 # [2014] - [2025] MinIO, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,7 @@ from contextlib import contextmanager
 from datetime import datetime, timezone
 from typing import Any, Generator
 
-from minio.time import from_http_header, to_http_header
+from obstor.time import from_http_header, to_http_header
 
 LOCALE_LOCK = threading.Lock()
 LAST_MODIFIED_STR = "Mon, 02 Mar 2015 07:28:00 GMT"

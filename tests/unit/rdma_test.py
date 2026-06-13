@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C)
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C)
 # [2024] - [2026] MinIO, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # SPDX-License-Identifier: Apache-2.0
 
-"""Unit tests for the RDMA dispatch path. The libminiocpp.so loader is
+"""Unit tests for the RDMA dispatch path. The libobstorcpp.so loader is
 mocked so these tests run on any host without RDMA hardware or libraries."""
 
 from __future__ import annotations
@@ -14,11 +14,11 @@ import ctypes
 import unittest
 from unittest import mock
 
-from minio.minio import Minio
+from obstor.obstor import Obstor
 
 
 class _FakeLib:
-    """Mimics the ctypes.CDLL surface that minio.rdma uses."""
+    """Mimics the ctypes.CDLL surface that obstor.rdma uses."""
 
     def __init__(self):
         self.put_calls = []
@@ -46,28 +46,28 @@ class _FakeLib:
         return call
 
     def __getattr__(self, name):
-        if name == "miniocpp_client_new":
+        if name == "obstorcpp_client_new":
             return self._stub("client_new")
-        if name == "miniocpp_put_object":
+        if name == "obstorcpp_put_object":
             return self._stub("put")
-        if name == "miniocpp_get_object":
+        if name == "obstorcpp_get_object":
             return self._stub("get")
-        if name == "miniocpp_rdma_available":
+        if name == "obstorcpp_rdma_available":
             return self._stub("available")
-        if name == "miniocpp_alloc_aligned":
+        if name == "obstorcpp_alloc_aligned":
             return self._stub("alloc")
-        if name == "miniocpp_free_aligned":
+        if name == "obstorcpp_free_aligned":
             return lambda *a: None
-        if name == "miniocpp_client_free":
+        if name == "obstorcpp_client_free":
             return lambda *a: None
-        if name == "miniocpp_last_error":
+        if name == "obstorcpp_last_error":
             return lambda: None
         raise AttributeError(name)
 
 
 class RDMADispatchTest(unittest.TestCase):
     def setUp(self):
-        import minio.rdma as rdma_mod
+        import obstor.rdma as rdma_mod
         self._fake = _FakeLib()
         # Stash the original loader and swap in our fake.
         self._orig = rdma_mod._LIB
@@ -76,11 +76,11 @@ class RDMADispatchTest(unittest.TestCase):
         # Our fake just exposes attributes by name.
 
     def tearDown(self):
-        import minio.rdma as rdma_mod
+        import obstor.rdma as rdma_mod
         rdma_mod._LIB = self._orig
 
     def test_put_object_dispatches_to_rdma(self):
-        client = Minio(
+        client = Obstor(
             endpoint="example.com",
             access_key="k",
             secret_key="s",
@@ -98,7 +98,7 @@ class RDMADispatchTest(unittest.TestCase):
         self.assertEqual(len(self._fake.put_calls), 1)
 
     def test_get_object_dispatches_to_rdma(self):
-        client = Minio(
+        client = Obstor(
             endpoint="example.com",
             access_key="k",
             secret_key="s",
@@ -116,7 +116,7 @@ class RDMADispatchTest(unittest.TestCase):
         self.assertEqual(len(self._fake.get_calls), 1)
 
     def test_rdma_off_skips_dispatch(self):
-        client = Minio(
+        client = Obstor(
             endpoint="example.com",
             access_key="k",
             secret_key="s",

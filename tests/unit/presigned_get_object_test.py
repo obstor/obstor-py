@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C)
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C)
 # [2014] - [2025] MinIO, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,18 +17,18 @@
 from datetime import timedelta
 from unittest import TestCase, mock
 
-from minio import Minio
-from minio.helpers import HTTPQueryDict
+from obstor import Obstor
+from obstor.helpers import HTTPQueryDict
 
 
 class PresignedGetObjectTest(TestCase):
     def test_object_is_string(self):
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         with self.assertRaises(TypeError):
             client.presigned_get_object(bucket_name='hello', object_name=1234)
 
     def test_object_is_not_empty_string(self):
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         with self.assertRaises(ValueError):
             client.presigned_get_object(
                 bucket_name='hello',
@@ -36,7 +36,7 @@ class PresignedGetObjectTest(TestCase):
             )
 
     def test_expiry_limit(self):
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         with self.assertRaises(ValueError):
             client.presigned_get_object(
                 bucket_name='hello',
@@ -45,7 +45,7 @@ class PresignedGetObjectTest(TestCase):
             )
 
     def test_can_include_response_headers(self):
-        client = Minio(
+        client = Obstor(
             endpoint='localhost:9000',
             access_key='my_access_key',
             secret_key='my_secret_key',

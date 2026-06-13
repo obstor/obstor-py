@@ -7,10 +7,10 @@ getdeps:
 
 check: getdeps
 	@echo "Running checks"
-	@pylint --reports=no --score=no --disable=R0401,R0801 minio/*py minio/credentials tests/functional
+	@pylint --reports=no --score=no --disable=R0401,R0801 obstor/*py obstor/credentials tests/functional
 	@isort --diff .
 	@find . -name "*.py" -exec autopep8 --diff --exit-code {} +
-	@mypy minio
+	@mypy obstor
 
 apply: getdeps
 	@isort .

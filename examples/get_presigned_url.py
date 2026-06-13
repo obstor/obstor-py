@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C)
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C)
 # [2014] - [2025] MinIO, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,11 +16,11 @@
 
 from datetime import timedelta
 
-from minio import Minio
-from minio.helpers import HTTPQueryDict
+from obstor import Obstor
+from obstor.helpers import HTTPQueryDict
 
-client = Minio(
-    endpoint="play.min.io",
+client = Obstor(
+    endpoint="demo.obstor.net",
     access_key="Q3AM3UQ867SPQQA43P2F",
     secret_key="zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG",
 )

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# MinIO Python Library for Amazon S3 Compatible Cloud Storage, (C)
+# Obstor Python Library for Amazon S3 Compatible Cloud Storage, (C)
 # [2014] - [2025] MinIO, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,10 +17,10 @@
 import time
 from unittest import TestCase, mock
 
-from minio import Minio
-from minio.helpers import _DEFAULT_USER_AGENT
+from obstor import Obstor
+from obstor.helpers import _DEFAULT_USER_AGENT
 
-from .minio_mocks import MockConnection, MockResponse
+from .obstor_mocks import MockConnection, MockResponse
 
 
 class ListObjectsV1Test(TestCase):
@@ -47,7 +47,7 @@ class ListObjectsV1Test(TestCase):
                 content=mock_data.encode(),
             ),
         )
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         bucket_iter = client.list_objects(
             bucket_name='bucket', recursive=True, use_api_v1=True,
         )
@@ -74,8 +74,8 @@ class ListObjectsV1Test(TestCase):
     <Size>11</Size>
     <StorageClass>STANDARD</StorageClass>
     <Owner>
-      <ID>minio</ID>
-      <DisplayName>minio</DisplayName>
+      <ID>obstor</ID>
+      <DisplayName>obstor</DisplayName>
     </Owner>
   </Contents>
   <Contents>
@@ -85,8 +85,8 @@ class ListObjectsV1Test(TestCase):
     <Size>1661</Size>
     <StorageClass>STANDARD</StorageClass>
     <Owner>
-      <ID>minio</ID>
-      <DisplayName>minio</DisplayName>
+      <ID>obstor</ID>
+      <DisplayName>obstor</DisplayName>
     </Owner>
   </Contents>
 </ListBucketResult>'''
@@ -102,7 +102,7 @@ class ListObjectsV1Test(TestCase):
                 content=mock_data.encode(),
             ),
         )
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         bucket_iter = client.list_objects(
             bucket_name='bucket', use_api_v1=True)
         buckets = []
@@ -143,8 +143,8 @@ class ListObjectsV1Test(TestCase):
     <Size>11</Size>
     <StorageClass>STANDARD</StorageClass>
     <Owner>
-      <ID>minio</ID>
-      <DisplayName>minio</DisplayName>
+      <ID>obstor</ID>
+      <DisplayName>obstor</DisplayName>
     </Owner>
   </Contents>
   <Contents>
@@ -154,8 +154,8 @@ class ListObjectsV1Test(TestCase):
     <Size>1661</Size>
     <StorageClass>STANDARD</StorageClass>
     <Owner>
-      <ID>minio</ID>
-      <DisplayName>minio</DisplayName>
+      <ID>obstor</ID>
+      <DisplayName>obstor</DisplayName>
     </Owner>
   </Contents>
 </ListBucketResult>'''
@@ -174,8 +174,8 @@ class ListObjectsV1Test(TestCase):
     <Size>11</Size>
     <StorageClass>STANDARD</StorageClass>
     <Owner>
-      <ID>minio</ID>
-      <DisplayName>minio</DisplayName>
+      <ID>obstor</ID>
+      <DisplayName>obstor</DisplayName>
     </Owner>
   </Contents>
   <Contents>
@@ -185,8 +185,8 @@ class ListObjectsV1Test(TestCase):
     <Size>1661</Size>
     <StorageClass>STANDARD</StorageClass>
     <Owner>
-      <ID>minio</ID>
-      <DisplayName>minio</DisplayName>
+      <ID>obstor</ID>
+      <DisplayName>obstor</DisplayName>
     </Owner>
   </Contents>
 </ListBucketResult>'''
@@ -202,7 +202,7 @@ class ListObjectsV1Test(TestCase):
                 content=mock_data1.encode(),
             ),
         )
-        client = Minio(endpoint='localhost:9000')
+        client = Obstor(endpoint='localhost:9000')
         bucket_iter = client.list_objects(
             bucket_name='bucket', recursive=True, use_api_v1=True,
         )
