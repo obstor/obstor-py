@@ -22,6 +22,5 @@ from .credentials import Credentials
 from .providers import (AssumeRoleProvider, AWSConfigProvider,
                         CertificateIdentityProvider, ChainedProvider,
                         ClientGrantsProvider, EnvAWSProvider, EnvObstorProvider,
-                        IamAwsProvider, LdapIdentityProvider,
-                        ObstorClientConfigProvider, Provider, StaticProvider,
-                        WebIdentityProvider)
+                        IamAwsProvider, LdapIdentityProvider, Provider,
+                        StaticProvider, WebIdentityProvider)

@@ -23,7 +23,7 @@ from __future__ import annotations
 from typing import Optional, Type
 
 from .compat import HTTPResponse
-from .xml import ET, findtext
+from .xml import ET, findtext, fromstring
 
 
 class ObstorException(Exception):
@@ -134,7 +134,7 @@ class S3Error(ObstorException):
     @classmethod
     def new(cls: Type[S3Error], response: HTTPResponse) -> S3Error:
         """Create new object with values from XML element."""
-        element = ET.fromstring(response.data.decode())
+        element = fromstring(response.data.decode())
         return cls(
             response=response,
             code=findtext(element, "Code"),

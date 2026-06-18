@@ -144,10 +144,10 @@ def check_bucket_name(
     """Check whether bucket name is valid optional with strict check or not."""
 
     if strict:
-        if not _BUCKET_NAME_REGEX.match(bucket_name):
+        if not _BUCKET_NAME_REGEX.fullmatch(bucket_name):
             raise ValueError(f"invalid bucket name {bucket_name}")
     else:
-        if not _OLD_BUCKET_NAME_REGEX.match(bucket_name):
+        if not _OLD_BUCKET_NAME_REGEX.fullmatch(bucket_name):
             raise ValueError(f"invalid bucket name {bucket_name}")
 
     if _IPV4_REGEX.match(bucket_name):

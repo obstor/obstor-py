@@ -62,7 +62,7 @@ This example does the following:
 - Connects to the Obstor `demo` server using the provided credentials.
 - Creates a bucket named `python-test-bucket` if it does not already exist.
 - Uploads a file named `test-file.txt` from `/tmp`, renaming it `my-test-file.txt`.
-- Verifies the file was created using [`mc ls`](https://obstor.net/docs/linux/reference/obstor-mc/mc-ls.html).
+- Verifies the file was created by listing the bucket with [`rclone`](https://rclone.org/s3/).
 
 ### `file_uploader.py`
 
@@ -131,11 +131,11 @@ Created bucket python-test-bucket
 /tmp/test-file.txt successfully uploaded as object my-test-file.txt to bucket python-test-bucket
 ```
 
-3. Verify the uploaded file with `mc ls`:
+3. Verify the uploaded file with `rclone ls` (using an `obstor` remote configured for the `demo` server):
 
 ```sh
-mc ls demo/python-test-bucket
-[2023-11-03 22:18:54 UTC]  20KiB STANDARD my-test-file.txt
+rclone ls obstor:python-test-bucket
+    20480 my-test-file.txt
 ```
 
 ## RDMA / GPUDirect Storage (optional)

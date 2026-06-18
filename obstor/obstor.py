@@ -83,7 +83,7 @@ from .models import (AbortMultipartUploadResponse, Checksum,
                      VersioningConfig, parse_list_objects)
 from .signer import presign_v4, sign_v4_s3
 from .sse import Sse, SseCustomerKey
-from .xml import ET, Element, SubElement, getbytes, marshal, unmarshal
+from .xml import ET, Element, SubElement, fromstring, getbytes, marshal, unmarshal
 
 
 class Obstor:
@@ -707,7 +707,7 @@ class Obstor:
             extra_query_params=extra_query_params,
         )
 
-        element = ET.fromstring(response.data.decode())
+        element = fromstring(response.data.decode())
         if not element.text:
             region = "us-east-1"
         elif element.text == "EU" and self._base_url.is_aws_host:

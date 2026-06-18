@@ -26,7 +26,6 @@ import json
 import os
 import re
 import socket
-import sys
 import time
 from abc import ABC, abstractmethod
 from datetime import timedelta
@@ -43,7 +42,7 @@ from obstor.compat import HTTPHeaderDict, HTTPResponse
 from obstor.helpers import url_replace
 from obstor.signer import sign_v4_sts
 from obstor.time import from_iso8601utc, to_amz_date, utcnow
-from obstor.xml import ET, find, findtext
+from obstor.xml import ET, find, findtext, fromstring
 
 from .credentials import Credentials
 
@@ -54,7 +53,7 @@ _DEFAULT_DURATION_SECONDS = int(timedelta(hours=1).total_seconds())
 
 def _parse_credentials(data: str, name: str) -> Credentials:
     """Parse data containing credentials XML."""
-    element = ET.fromstring(data)
+    element = fromstring(data)
     element = cast(ET.Element, find(element, name, True))
     element = cast(ET.Element, find(element, "Credentials", True))
     expiration = from_iso8601utc(findtext(element, "Expiration", True))
@@ -321,47 +320,6 @@ class AWSConfigProvider(Provider):
             secret_key,
             session_token=session_token,
         )
-
-
-class ObstorClientConfigProvider(Provider):
-    """Credential provider from Obstor Client configuration file."""
-
-    def __init__(
-            self,
-            filename: Optional[str] = None,
-            alias: Optional[str] = None,
-    ):
-        self._filename = (
-            filename or
-            os.path.join(
-                _user_home_dir(),
-                "mc" if sys.platform == "win32" else ".mc",
-                "config.json",
-            )
-        )
-        self._alias = alias or os.environ.get("OBSTOR_ALIAS") or "s3"
-
-    def retrieve(self) -> Credentials:
-        """Retrieve credential value from Obstor client configuration file."""
-        try:
-            with open(self._filename, encoding="utf-8") as conf_file:
-                config = json.load(conf_file)
-            aliases = config.get("hosts") or config.get("aliases")
-            if not aliases:
-                raise ValueError(
-                    f"invalid configuration in file {self._filename}",
-                )
-            creds = aliases.get(self._alias)
-            if not creds:
-                raise ValueError(
-                    f"alias {self._alias} not found in Obstor client"
-                    f"configuration file {self._filename}"
-                )
-            return Credentials(creds.get("accessKey"), creds.get("secretKey"))
-        except (IOError, OSError) as exc:
-            raise ValueError(
-                f"error in reading file {self._filename}",
-            ) from exc
 
 
 def _check_loopback_host(url: str):

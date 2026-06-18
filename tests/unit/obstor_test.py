@@ -38,6 +38,11 @@ class ValidBucketName(TestCase):
     def test_bucket_name_begins_period(self):
         self.assertRaises(ValueError, check_bucket_name, '.ddmybucket', False)
 
+    def test_bucket_name_trailing_newline(self):
+        self.assertRaises(ValueError, check_bucket_name, 'mybucket\n', False)
+        self.assertRaises(ValueError, check_bucket_name, 'mybucket\n', True)
+        self.assertRaises(ValueError, check_bucket_name, 'evil.host\n', False)
+
 
 class GetURLTests(TestCase):
     def test_url_build(self):

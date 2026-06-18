@@ -41,7 +41,7 @@ from .helpers import check_bucket_name
 from .signer import get_credential_string, post_presign_v4
 from .time import (from_http_header, from_iso8601utc, to_amz_date,
                    to_http_header, to_iso8601utc)
-from .xml import ET, Element, SubElement, find, findall, findtext, unmarshal
+from .xml import ET, Element, SubElement, find, findall, findtext, fromstring, unmarshal
 
 ################################################################################
 ###########                    Common data structures                ###########
@@ -296,7 +296,7 @@ def parse_list_objects(
         bucket_name: Optional[str] = None,
 ) -> tuple[list[Object], bool, Optional[str], Optional[str]]:
     """Parse ListObjects/ListObjectsV2/ListObjectVersions response."""
-    element = ET.fromstring(response.data.decode())
+    element = fromstring(response.data.decode())
     bucket_name = cast(str, findtext(element, "Name", True))
     encoding_type = findtext(element, "EncodingType")
     elements = findall(element, "Contents")
@@ -2685,7 +2685,7 @@ class CompleteMultipartUploadResult(Checksum):
             response: HTTPResponse,
     ) -> CompleteMultipartUploadResult:
         """Create CompleteMultipartUploadResult from response data."""
-        element = ET.fromstring(response.data.decode())
+        element = fromstring(response.data.decode())
         checksum = Checksum.fromxml(element)
         return CompleteMultipartUploadResult(
             bucket_name=findtext(element, "Bucket"),
@@ -4021,7 +4021,7 @@ class SelectObjectResponse(GenericResponse):
         bytes_returned: Optional[str] = None
 
         def __init__(self, data):
-            element = ET.fromstring(data.decode())
+            element = fromstring(data.decode())
             object.__setattr__(
                 self,
                 "bytes_scanned",

@@ -19,19 +19,17 @@ from unittest import TestCase
 
 from obstor.credentials.providers import (AWSConfigProvider, ChainedProvider,
                                          EnvAWSProvider, EnvObstorProvider,
-                                         ObstorClientConfigProvider,
                                          StaticProvider)
 
-CONFIG_JSON_SAMPLE = "tests/unit/config.json.sample"
 CREDENTIALS_SAMPLE = "tests/unit/credentials.sample"
 CREDENTIALS_EMPTY = "tests/unit/credentials.empty"
 
 
 class CredentialsTest(TestCase):
     def test_credentials_get(self):
-        provider = ObstorClientConfigProvider(
-            filename=CONFIG_JSON_SAMPLE,
-            alias="demo",
+        provider = StaticProvider(
+            "Q3AM3UQ867SPQQA43P2F",
+            "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG",
         )
         creds = provider.retrieve()
         self.assertEqual(creds.access_key, "Q3AM3UQ867SPQQA43P2F")
@@ -171,38 +169,6 @@ class AWSConfigProviderTest(TestCase):
             provider.retrieve()
         except ValueError:
             pass
-
-
-class ObstorClientConfigProviderTest(TestCase):
-    def test_file_obstor_(self):
-        os.environ.clear()
-        provider = ObstorClientConfigProvider(filename=CONFIG_JSON_SAMPLE)
-        creds = provider.retrieve()
-        self.assertEqual(creds.access_key, "accessKey")
-        self.assertEqual(creds.secret_key, "secret")
-        self.assertEqual(creds.session_token, None)
-
-    def test_file_obstor_env_alias(self):
-        os.environ.clear()
-        os.environ["OBSTOR_ALIAS"] = "demo"
-        provider = ObstorClientConfigProvider(filename=CONFIG_JSON_SAMPLE)
-        creds = provider.retrieve()
-        self.assertEqual(creds.access_key, "Q3AM3UQ867SPQQA43P2F")
-        self.assertEqual(creds.secret_key,
-                         "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
-        self.assertEqual(creds.session_token, None)
-
-    def test_file_obstor_arg_alias(self):
-        os.environ.clear()
-        provider = ObstorClientConfigProvider(
-            filename=CONFIG_JSON_SAMPLE,
-            alias="demo",
-        )
-        creds = provider.retrieve()
-        self.assertEqual(creds.access_key, "Q3AM3UQ867SPQQA43P2F")
-        self.assertEqual(creds.secret_key,
-                         "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
-        self.assertEqual(creds.session_token, None)
 
 
 class StaticProviderTest(TestCase):

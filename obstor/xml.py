@@ -19,12 +19,26 @@
 from __future__ import annotations
 
 import io
+import re
 from typing import Optional, TypeVar
 from xml.etree import ElementTree as ET
 
 from typing_extensions import Protocol
 
 _S3_NAMESPACE = "http://s3.amazonaws.com/doc/2006-03-01/"
+
+_DOCTYPE_RE = re.compile(rb"<!DOCTYPE", re.IGNORECASE)
+
+
+def fromstring(data: "str | bytes") -> ET.Element:
+    """Parse XML with DTD/entity processing disabled.
+
+    Prevent DTD/entity expansion attacks like the billion laugh DoS, while remaining compatible with normal S3/STS XML responses.
+    """
+    raw = data.encode("utf-8") if isinstance(data, str) else data
+    if _DOCTYPE_RE.search(raw):
+        raise ValueError("XML DOCTYPE/DTD is not allowed")
+    return ET.fromstring(data)
 
 
 def Element(  # pylint: disable=invalid-name
@@ -115,7 +129,7 @@ class UnmarshalProtocol(Protocol):
 
 def unmarshal(cls: type[UnmarshalT], xmlstring: str) -> UnmarshalT:
     """Unmarshal given XML string to an object of passed class."""
-    return cls.fromxml(ET.fromstring(xmlstring))
+    return cls.fromxml(fromstring(xmlstring))
 
 
 def getbytes(element: ET.Element) -> bytes:
