@@ -37,7 +37,7 @@ if [ -z ${SERVER_ENDPOINT+x} ]; then
 	OBSTOR_PID=$!
 	trap 'kill -9 ${OBSTOR_PID} 2>/dev/null' INT
 
-	export MINT_MODE=full
+	export TESTS_MODE=full
 	export SERVER_ENDPOINT=localhost:9000
 	export ACCESS_KEY=obstoradmin
 	export SECRET_KEY=obstoradmin

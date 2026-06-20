@@ -12,7 +12,7 @@ env:
   OBSTOR_ROOT_USER: obstor
   OBSTOR_ROOT_PASSWORD: obstor123
   OBSTOR_CI_CD: 1
-  MINT_MODE: full
+  TESTS_MODE: full
   SERVER_ENDPOINT: localhost:9000
   ACCESS_KEY: obstor
   SECRET_KEY: obstor123

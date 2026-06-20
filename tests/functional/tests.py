@@ -2364,10 +2364,10 @@ def main():
     )
     _is_aws = ".amazonaws.com" in server_endpoint
 
-    # Check if we are running in the mint environment.
-    data_dir = os.getenv('DATA_DIR', '/mint/data')
+    # Check if we are running in the tests environment.
+    data_dir = os.getenv('DATA_DIR', '/tests/data')
 
-    is_mint_env = (
+    is_test_env = (
         os.path.exists(data_dir) and
         os.path.exists(os.path.join(data_dir, 'datafile-1-MB')) and
         os.path.exists(os.path.join(data_dir, 'datafile-11-MB'))
@@ -2378,7 +2378,7 @@ def main():
 
     _test_file = 'datafile-1-MB'
     _large_file = 'datafile-11-MB'
-    if is_mint_env:
+    if is_test_env:
         # Choose data files
         _test_file = os.path.join(data_dir, 'datafile-1-MB')
         _large_file = os.path.join(data_dir, 'datafile-11-MB')
@@ -2415,7 +2415,7 @@ def main():
         # Create an SSE-C object with provided customer key
         ssec = SseCustomerKey(cust_key)
 
-    if os.getenv("MINT_MODE") == "full":
+    if os.getenv("TESTS_MODE") == "full":
         tests = {
             test_make_bucket_default_region: None,
             test_make_bucket_with_region: None,
@@ -2508,7 +2508,7 @@ def main():
                 test_name, *args, **kwargs)  # pylint: disable=not-a-mapping
 
     # Remove temporary files.
-    if not is_mint_env:
+    if not is_test_env:
         os.remove(_test_file)
         os.remove(_large_file)
 
